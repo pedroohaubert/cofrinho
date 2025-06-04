@@ -144,7 +144,7 @@ export class PostgreSQLInstallmentPlanRepository implements IInstallmentPlanRepo
   }
 
   private mapRowToEntity(row: InstallmentPlanRow): InstallmentPlan {
-    const totalAmount = new Money(row.total_amount);
+    const totalAmount = new Money(row.total_amount, 'BRL'); // Explicitly BRL as currency is not stored
     const status = this.mapStatusFromDatabase(row.status);
     
     return new InstallmentPlan(

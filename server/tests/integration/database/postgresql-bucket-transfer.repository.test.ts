@@ -35,8 +35,8 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
     testSavingsBucket = new SavingsBucket(
       randomUUID(),
       'Test Bucket for Transfers',
-      new Money(1000, 'USD'), // target
-      new Money(500, 'USD')  // balance
+      new Money(1000, 'BRL'), // target
+      new Money(500, 'BRL')  // balance
     );
     await testSql`
       INSERT INTO savings_buckets (id, name, target_amount, current_balance, description, is_active, created_at, updated_at)
@@ -64,8 +64,8 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
     // For testing save, we use positive amounts as per entity.
     return new BucketTransfer(
       id,
-      props.date || now,
-      props.amount || new Money(100, 'USD'),
+      props.date || new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())), // Normalized to midnight UTC
+      props.amount || new Money(100, 'BRL'),
       props.type || BucketTransferType.DEPOSIT,
       props.bucketId || testSavingsBucket.id,
       props.description === undefined ? 'Test Transfer' : props.description,
@@ -79,7 +79,7 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
       const transfer = createTestBucketTransfer({
         description: 'Initial Deposit',
         type: BucketTransferType.DEPOSIT,
-        amount: new Money(200, 'USD')
+        amount: new Money(200, 'BRL')
       });
       await repository.save(transfer);
 
@@ -136,14 +136,14 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
       const originalDate = new Date('2024-01-01T12:00:00Z');
       const transfer = createTestBucketTransfer({
         description: 'Original Desc',
-        amount: new Money(100, 'USD'),
+        amount: new Money(100, 'BRL'),
         date: originalDate
       });
       await repository.save(transfer);
 
       const newDescription = 'Updated Desc';
-      const newAmount = new Money(150, 'USD');
-      const newDate = new Date('2024-01-02T12:00:00Z');
+      const newAmount = new Money(150, 'BRL');
+      const newDate = new Date(Date.UTC(2024, 0, 2)); // Normalized to midnight UTC (Jan 2, 2024)
 
       // Create a new entity instance for update, as per repository pattern
       const transferToUpdate = new BucketTransfer(

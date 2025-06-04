@@ -160,8 +160,8 @@ export class PostgreSQLSavingsBucketRepository implements ISavingsBucketReposito
   }
 
   private mapRowToEntity(row: SavingsBucketRow): SavingsBucket {
-    const currentBalance = new Money(row.current_balance);
-    const targetAmount = row.target_amount ? new Money(row.target_amount) : null;
+    const currentBalance = new Money(row.current_balance, 'BRL'); // Explicitly BRL
+    const targetAmount = row.target_amount ? new Money(row.target_amount, 'BRL') : null; // Explicitly BRL
     
     return new SavingsBucket(
       row.id,

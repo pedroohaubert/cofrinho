@@ -26,8 +26,6 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
   let testPaymentMethod: PaymentMethod;
 
   beforeAll(async () => {
-    // The 'testSql' instance is already connected when created.
-    // We can check connectivity if needed, but postgres library handles this.
     repository = new PostgreSQLTransactionRepository(testSql);
     console.log("Opened test database connection.");
   });
@@ -38,10 +36,8 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    // Clean relevant tables before each test
     await testSql`TRUNCATE TABLE transactions, categories, payment_methods RESTART IDENTITY CASCADE;`;
 
-    // Insert placeholder category and payment_method
     testCategory = new Category(
       randomUUID(),
       'Test Category',
@@ -53,7 +49,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
     );
     await testSql`
       INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at)
-      VALUES (${testCategory.id}, ${testCategory.name}, ${testCategory.type}, ${testCategory.color}, ${testCategory.isActive}, ${testCategory.createdAt.toISOString()}, ${testCategory.updatedAt.toISOString()})
+      VALUES (${testCategory.id}, ${testCategory.name}, ${testCategory.type.toString()}, ${testCategory.color}, ${testCategory.isActive}, ${testCategory.createdAt.toISOString()}, ${testCategory.updatedAt.toISOString()})
     `;
 
     testPaymentMethod = new PaymentMethod(
@@ -66,28 +62,28 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
     );
     await testSql`
       INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at)
-      VALUES (${testPaymentMethod.id}, ${testPaymentMethod.name}, ${testPaymentMethod.type}, ${testPaymentMethod.isActive}, ${testPaymentMethod.createdAt.toISOString()}, ${testPaymentMethod.updatedAt.toISOString()})
+      VALUES (${testPaymentMethod.id}, ${testPaymentMethod.name}, ${testPaymentMethod.type.toString()}, ${testPaymentMethod.isActive}, ${testPaymentMethod.createdAt.toISOString()}, ${testPaymentMethod.updatedAt.toISOString()})
     `;
   });
 
   describe('save and findById', () => {
     it('should save a new transaction and retrieve it by ID', async () => {
       const transactionId = randomUUID();
-      const transactionDate = new Date('2024-07-28T10:00:00.000Z');
-      const createdAt = new Date('2024-07-28T10:00:00.000Z');
-      const updatedAt = new Date('2024-07-28T10:00:00.000Z');
+      const transactionDate = new Date(Date.UTC(2024, 6, 28));
+      const createdAt = new Date(Date.UTC(2024, 6, 28));
+      const updatedAt = new Date(Date.UTC(2024, 6, 28));
 
       const transaction = new Transaction(
         transactionId,
         transactionDate,
-        new Money(100.50, 'USD'),
+        new Money(100.50, 'BRL'), // Explicitly BRL
         testCategory.id,
         testPaymentMethod.id,
         new TransactionTypeVO(TransactionType.EXPENSE),
         'Test transaction description',
         TransactionSource.MANUAL,
-        null, // sourceId for manual
-        true, // isActive
+        null,
+        true,
         createdAt,
         updatedAt
       );
@@ -97,12 +93,10 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
 
       expect(found).not.toBeNull();
       expect(found).toBeInstanceOf(Transaction);
-
-      // Deep equality check for all relevant properties
       expect(found!.id).toBe(transaction.id);
       expect(found!.date.toISOString()).toBe(transaction.date.toISOString());
       expect(found!.amount.amount).toBe(transaction.amount.amount);
-      expect(found!.amount.currency).toBe(transaction.amount.currency);
+      expect(found!.amount.currency).toBe('BRL'); // Assert BRL
       expect(found!.categoryId).toBe(transaction.categoryId);
       expect(found!.paymentMethodId).toBe(transaction.paymentMethodId);
       expect(found!.type.value).toBe(transaction.type.value);
@@ -111,8 +105,6 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       expect(found!.sourceId).toBe(transaction.sourceId);
       expect(found!.isActive).toBe(transaction.isActive);
       expect(found!.createdAt.toISOString()).toBe(transaction.createdAt.toISOString());
-      // For updatedAt, it might be slightly different due to database precision or triggers.
-      // Check if it's close or updated appropriately. For save, it should be same as input.
       expect(found!.updatedAt.toISOString()).toBe(transaction.updatedAt.toISOString());
     });
 
@@ -126,12 +118,12 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
   describe('update', () => {
     it('should update an existing transaction properties', async () => {
       const transactionId = randomUUID();
-      const initialDate = new Date('2024-07-01T10:00:00.000Z');
+      const initialDate = new Date(Date.UTC(2024, 6, 1)); // Normalized date
 
       let transaction = new Transaction(
         transactionId,
         initialDate,
-        new Money(150.00, 'USD'),
+        new Money(150.00, 'BRL'), // Explicitly BRL
         testCategory.id,
         testPaymentMethod.id,
         new TransactionTypeVO(TransactionType.EXPENSE),
@@ -141,35 +133,45 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       );
       await repository.save(transaction);
 
-      const originalUpdatedAt = transaction.updatedAt;
+      const originalFetchedTransaction = (await repository.findById(transactionId))!;
+      const originalUpdatedAt = originalFetchedTransaction.updatedAt;
 
-      // Ensure there's a slight delay for updatedAt comparison if needed,
-      // though repository should set its own new updatedAt.
       await new Promise(resolve => setTimeout(resolve, 10));
 
       const newDescription = 'Updated transaction description';
-      const newAmount = new Money(200.75, 'USD');
+      const newAmount = new Money(200.75, 'BRL'); // Explicitly BRL
 
-      // Re-fetch or re-create the domain object to update
-      // For this test, we create a new instance with the same ID and updated values
-      // In a real scenario, you'd likely call methods on the fetched 'transaction' instance
-      // if it had mutable properties and an update method.
-      // Since our entity is largely immutable with setters for specific fields that also update `updatedAt`,
-      // we'll simulate fetching and then calling an update.
-      // The repository's update method takes a Transaction domain object.
-
+      // Create a new transaction instance for update, or use setters if available
       const fetchedTransaction = (await repository.findById(transactionId))!;
-      fetchedTransaction.updateAmount(newAmount); // This updates amount and _updatedAt internally
-      fetchedTransaction.updateDescription(newDescription); // This updates description and _updatedAt internally
 
-      await repository.update(fetchedTransaction);
+      // Simulate updating fields that the entity allows updating
+      // Assuming Transaction entity has methods like updateAmount, updateDescription
+      // If not, we'd construct a new Transaction with the old ID and new values for the update call.
+      // For this example, let's assume we can update properties on the fetched entity for simplicity of test.
+      // In a real CQRS or immutable entity pattern, this might be different.
 
+      const transactionToUpdate = new Transaction(
+        fetchedTransaction.id,
+        fetchedTransaction.date, // Assuming date is not changed in this update test
+        newAmount, // new amount
+        fetchedTransaction.categoryId, // Assuming categoryId not changed
+        fetchedTransaction.paymentMethodId, // Assuming paymentMethodId not changed
+        fetchedTransaction.type, // Assuming type not changed
+        newDescription, // new description
+        fetchedTransaction.source,
+        fetchedTransaction.sourceId,
+        fetchedTransaction.isActive,
+        fetchedTransaction.createdAt, // createdAt should not change
+        new Date() // new updatedAt
+      );
+
+      await repository.update(transactionToUpdate);
       const updatedTransaction = await repository.findById(transactionId);
 
       expect(updatedTransaction).not.toBeNull();
       expect(updatedTransaction!.description).toBe(newDescription);
       expect(updatedTransaction!.amount.amount).toBe(newAmount.amount);
-      expect(updatedTransaction!.amount.currency).toBe(newAmount.currency);
+      expect(updatedTransaction!.amount.currency).toBe('BRL'); // Assert BRL
       expect(updatedTransaction!.updatedAt.getTime()).toBeGreaterThan(originalUpdatedAt.getTime());
     });
   });
@@ -178,8 +180,8 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
     it('should delete a transaction and it should not be found afterwards', async () => {
       const transaction = new Transaction(
         randomUUID(),
-        new Date(),
-        new Money(50.00, 'USD'),
+        new Date(Date.UTC(2024, 6, 29)), // Normalized
+        new Money(50.00, 'BRL'), // Explicitly BRL
         testCategory.id,
         testPaymentMethod.id,
         new TransactionTypeVO(TransactionType.EXPENSE),
@@ -196,16 +198,4 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       expect(found).toBeNull();
     });
   });
-
-  // TODO: Add more tests for other repository methods like findPaginated, findByDateRange etc.
-  // For example:
-  // describe('findPaginated', () => {
-  //   it('should return paginated transactions according to filters', async () => {
-  //     // Setup multiple transactions
-  //     // ...
-  //     // const result = await repository.findPaginated(1, 10, { categoryId: testCategory.id });
-  //     // expect(result.items).toHaveLength(N);
-  //     // expect(result.totalItems).toBe(M);
-  //   });
-  // });
 });

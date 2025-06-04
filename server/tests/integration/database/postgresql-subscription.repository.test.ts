@@ -1,7 +1,7 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { PostgreSQLSubscriptionRepository } from '@/infrastructure/database/repositories/postgresql-subscription.repository';
-import { Subscription, SubscriptionStatus, BillingCycle } from '@/domain/entities/subscription';
+import { Subscription, SubscriptionStatus } from '@/domain/entities/subscription';
 import { Category } from '@/domain/entities/category';
 import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method';
 import { Money } from '@/domain/value-objects/money';
@@ -21,6 +21,33 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
   let testCategory: Category;
   let testPaymentMethod: PaymentMethod;
 
+  // Helper function copied from postgresql-category.repository.test.ts
+  const createTestCategory = (props: Partial<Category> = {}): Category => {
+    const id = props.id || randomUUID();
+    return new Category(
+      id,
+      props.name || `Test Category ${id.substring(0, 8)}`,
+      props.type || TransactionType.EXPENSE,
+      props.color || '#FF0000',
+      props.isActive !== undefined ? props.isActive : true,
+      props.createdAt || new Date(),
+      props.updatedAt || new Date()
+    );
+  };
+
+  // Helper function copied from postgresql-payment-method.repository.test.ts
+  const createTestPaymentMethod = (props: Partial<PaymentMethod> = {}): PaymentMethod => {
+    const id = props.id || randomUUID();
+    return new PaymentMethod(
+      id,
+      props.name || `Test PM ${id.substring(0, 8)}`,
+      props.type || PaymentMethodType.CASH,
+      props.isActive !== undefined ? props.isActive : true,
+      props.createdAt || new Date(),
+      props.updatedAt || new Date()
+    );
+  };
+
   beforeAll(async () => {
     repository = new PostgreSQLSubscriptionRepository(testSql);
     console.log("Opened test database connection for SubscriptionRepository.");
@@ -35,25 +62,16 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
     await testSql`TRUNCATE TABLE subscriptions, categories, payment_methods RESTART IDENTITY CASCADE;`;
 
     // Insert placeholder category and payment_method
-    testCategory = new Category(
-      randomUUID(),
-      'Test Category For Subs',
-      TransactionType.EXPENSE, // Subscriptions are typically expenses
-      '#FF0000'
-    );
+    testCategory = createTestCategory({name: 'Test Category For Subs', type: TransactionType.EXPENSE});
     await testSql`
       INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at)
-      VALUES (${testCategory.id}, ${testCategory.name}, ${testCategory.type}, ${testCategory.color}, ${testCategory.isActive}, ${testCategory.createdAt.toISOString()}, ${testCategory.updatedAt.toISOString()})
+      VALUES (${testCategory.id}, ${testCategory.name}, ${testCategory.type.toString()}, ${testCategory.color}, ${testCategory.isActive}, ${testCategory.createdAt.toISOString()}, ${testCategory.updatedAt.toISOString()})
     `;
 
-    testPaymentMethod = new PaymentMethod(
-      randomUUID(),
-      'Test PM For Subs',
-      PaymentMethodType.CREDIT_CARD // Subscriptions often use credit cards
-    );
+    testPaymentMethod = createTestPaymentMethod({name: 'Test PM For Subs', type: PaymentMethodType.CREDIT_CARD});
     await testSql`
       INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at)
-      VALUES (${testPaymentMethod.id}, ${testPaymentMethod.name}, ${testPaymentMethod.type}, ${testPaymentMethod.isActive}, ${testPaymentMethod.createdAt.toISOString()}, ${testPaymentMethod.updatedAt.toISOString()})
+      VALUES (${testPaymentMethod.id}, ${testPaymentMethod.name}, ${testPaymentMethod.type.toString()}, ${testPaymentMethod.isActive}, ${testPaymentMethod.createdAt.toISOString()}, ${testPaymentMethod.updatedAt.toISOString()})
     `;
   });
 
@@ -63,7 +81,7 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
     return new Subscription(
       id,
       props.name || `Test Sub ${id.substring(0, 8)}`,
-      props.monthlyAmount || new Money(10, 'USD'),
+      props.monthlyAmount || new Money(10, 'BRL'),
       props.startDate || new Date(now.getFullYear(), now.getMonth(), 1),
       props.categoryId || testCategory.id,
       props.paymentMethodId || testPaymentMethod.id,
@@ -76,7 +94,7 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
 
   describe('save and findById', () => {
     it('should save a new subscription and retrieve it by ID', async () => {
-      const sub = createTestSubscription({ name: 'Netflix', monthlyAmount: new Money(15.99, 'USD') });
+      const sub = createTestSubscription({ name: 'Netflix', monthlyAmount: new Money(15.99, 'BRL') });
       await repository.save(sub);
 
       const found = await repository.findById(sub.id);
@@ -185,8 +203,8 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
   describe('findByCategory', () => {
     it('should return subscriptions for a specific categoryId', async () => {
       const cat1 = testCategory; // Used in createTestSubscription default
-      const cat2 = createTestCategory({id: randomUUID(), name: "Category 2"});
-      await testSql`INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at) VALUES (${cat2.id}, ${cat2.name}, ${cat2.type}, ${cat2.color}, ${cat2.isActive}, ${cat2.createdAt.toISOString()}, ${cat2.updatedAt.toISOString()})`;
+      const cat2 = createTestCategory({id: randomUUID(), name: "Category 2", type: TransactionType.EXPENSE}); // Ensure type is valid for subs
+      await testSql`INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at) VALUES (${cat2.id}, ${cat2.name}, ${cat2.type.toString()}, ${cat2.color}, ${cat2.isActive}, ${cat2.createdAt.toISOString()}, ${cat2.updatedAt.toISOString()})`;
 
 
       const sub1 = createTestSubscription({ categoryId: cat1.id });
@@ -203,8 +221,8 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
   describe('findByPaymentMethod', () => {
     it('should return subscriptions for a specific paymentMethodId', async () => {
       const pm1 = testPaymentMethod; // Used in createTestSubscription default
-      const pm2 = createTestPaymentMethod({id: randomUUID(), name: "PM 2"});
-      await testSql`INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at) VALUES (${pm2.id}, ${pm2.name}, ${pm2.type}, ${pm2.isActive}, ${pm2.createdAt.toISOString()}, ${pm2.updatedAt.toISOString()})`;
+      const pm2 = createTestPaymentMethod({id: randomUUID(), name: "PM 2", type: PaymentMethodType.CREDIT_CARD}); // Ensure type is valid for subs
+      await testSql`INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at) VALUES (${pm2.id}, ${pm2.name}, ${pm2.type.toString()}, ${pm2.isActive}, ${pm2.createdAt.toISOString()}, ${pm2.updatedAt.toISOString()})`;
 
       const sub1 = createTestSubscription({ paymentMethodId: pm1.id });
       const sub2 = createTestSubscription({ paymentMethodId: pm2.id });
