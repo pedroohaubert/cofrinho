@@ -1,0 +1,48 @@
+{
+  "name": "cofrinho-server",
+  "version": "1.0.0",
+  "description": "Cofrinho Expense Tracker - Backend Server",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "bun run --watch src/main.ts",
+    "build": "bun build src/main.ts --outdir dist --target bun",
+    "start": "bun run dist/main.js",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "migrate": "bun run src/infrastructure/database/migrate.ts",
+    "seed": "bun run src/infrastructure/database/seed.ts",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/swagger-ui": "^0.5.1",
+    "@hono/zod-openapi": "^0.19.8",
+    "dotenv": "^16.3.1",
+    "hono": "^3.12.8",
+    "postgres": "^3.4.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  },
+  "keywords": [
+    "expense-tracker",
+    "finance",
+    "hono",
+    "bun",
+    "typescript"
+  ],
+  "author": "Pedro Haubert",
+  "license": "MIT"
+}
