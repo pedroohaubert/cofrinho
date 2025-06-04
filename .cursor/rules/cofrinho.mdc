@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+When working on server or client you must look at if there is a todo.md file with tasks related to what you are doing and check them as youre proced. If there aren't tasks related to what you are doing create a new list of tasks in it that you must follow to complete your task.
