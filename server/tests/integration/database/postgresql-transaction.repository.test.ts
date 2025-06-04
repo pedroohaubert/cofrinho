@@ -38,18 +38,23 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    // Clean relevant tables before each test
-    await testSql`TRUNCATE TABLE transactions, categories, payment_methods RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
 
-    // Insert placeholder category and payment_method
+    // Create test dependencies
     testCategory = new Category(
       randomUUID(),
-      'Test Category',
+      'Test Category For Transactions',
       TransactionType.EXPENSE,
-      '#FF0000',
-      true,
-      new Date(),
-      new Date()
+      '#FF0000'
     );
     await testSql`
       INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at)
@@ -58,11 +63,8 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
 
     testPaymentMethod = new PaymentMethod(
       randomUUID(),
-      'Test Payment Method',
-      PaymentMethodType.CASH,
-      true,
-      new Date(),
-      new Date()
+      'Test PM For Transactions',
+      PaymentMethodType.CASH
     );
     await testSql`
       INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at)

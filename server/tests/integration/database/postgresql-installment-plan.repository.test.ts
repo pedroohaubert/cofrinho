@@ -32,13 +32,23 @@ describe('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await testSql`TRUNCATE TABLE installment_plans, categories, payment_methods RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
 
+    // Create test dependencies
     testCategory = new Category(
       randomUUID(),
-      'Test Category For Installments',
+      'Test Category For Plans',
       TransactionType.EXPENSE,
-      '#00FF00'
+      '#FF0000'
     );
     await testSql`
       INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at)
@@ -47,8 +57,8 @@ describe('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
 
     testPaymentMethod = new PaymentMethod(
       randomUUID(),
-      'Test PM For Installments',
-      PaymentMethodType.CREDIT_CARD // Installments typically use credit cards
+      'Test PM For Plans',
+      PaymentMethodType.CREDIT_CARD
     );
     await testSql`
       INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at)

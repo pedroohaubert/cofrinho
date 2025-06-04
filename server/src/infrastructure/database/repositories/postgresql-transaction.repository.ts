@@ -33,7 +33,7 @@ export class PostgreSQLTransactionRepository implements ITransactionRepository {
         ${transaction.categoryId},
         ${transaction.paymentMethodId},
         ${transaction.description},
-        ${transaction.type.toLowerCase()},
+        ${transaction.type.toString()},
         ${transaction.source},
         ${transaction.sourceId},
         ${transaction.createdAt},

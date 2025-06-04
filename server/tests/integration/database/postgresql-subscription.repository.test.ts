@@ -32,7 +32,16 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await testSql`TRUNCATE TABLE subscriptions, categories, payment_methods RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation  
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
 
     // Insert placeholder category and payment_method
     testCategory = new Category(
@@ -60,9 +69,11 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
   const createTestSubscription = (props: Partial<Subscription> & { id?: string } = {}): Subscription => {
     const id = props.id || randomUUID();
     const now = new Date();
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
     return new Subscription(
       id,
-      props.name || `Test Sub ${id.substring(0, 8)}`,
+      props.name || `Test Sub ${timestamp}-${randomSuffix}`,
       props.monthlyAmount || new Money(10, 'BRL'),
       props.startDate || new Date(now.getFullYear(), now.getMonth(), 1),
       props.categoryId || testCategory.id,
@@ -71,6 +82,27 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
       props.status || SubscriptionStatus.ACTIVE,
       props.createdAt || new Date(),
       props.updatedAt || new Date()
+    );
+  };
+
+  const createTestCategory = (props: Partial<Category> & { id?: string } = {}): Category => {
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
+    return new Category(
+      props.id || randomUUID(),
+      props.name || `Test Category ${timestamp}-${randomSuffix}`,
+      props.type || TransactionType.EXPENSE,
+      props.color || '#FF0000'
+    );
+  };
+
+  const createTestPaymentMethod = (props: Partial<PaymentMethod> & { id?: string } = {}): PaymentMethod => {
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
+    return new PaymentMethod(
+      props.id || randomUUID(),
+      props.name || `Test PM ${timestamp}-${randomSuffix}`,
+      props.type || PaymentMethodType.CREDIT_CARD
     );
   };
 

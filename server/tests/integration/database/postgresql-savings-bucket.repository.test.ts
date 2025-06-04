@@ -27,7 +27,16 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await testSql`TRUNCATE TABLE savings_buckets RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
   });
 
   // Helper to create SavingsBucket instances for tests
@@ -42,7 +51,9 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
     updatedAt?: Date;
   } = {}): SavingsBucket => {
     const id = props.id || randomUUID();
-    const name = props.name || `Test Bucket ${id.substring(0, 8)}`;
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
+    const name = props.name || `Test Bucket ${timestamp}-${randomSuffix}`;
     const targetAmount = props.targetAmount === undefined ? new Money(1000, 'BRL') : props.targetAmount;
     const currentBalance = props.currentBalance || new Money(0, 'BRL');
     const description = props.description === undefined ? 'Test description' : props.description;

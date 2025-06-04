@@ -30,26 +30,27 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await testSql`TRUNCATE TABLE bucket_transfers, savings_buckets RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
 
+    // Create test bucket for the tests
     testSavingsBucket = new SavingsBucket(
       randomUUID(),
-      'Test Bucket for Transfers',
-      new Money(1000, 'BRL'), // target
-      new Money(500, 'BRL')  // balance
+      'Test Transfer Bucket',
+      new Money(1000, 'BRL'),
+      new Money(500, 'BRL')
     );
     await testSql`
       INSERT INTO savings_buckets (id, name, target_amount, current_balance, description, is_active, created_at, updated_at)
-      VALUES (
-        ${testSavingsBucket.id},
-        ${testSavingsBucket.name},
-        ${testSavingsBucket.targetAmount?.amount || null},
-        ${testSavingsBucket.currentBalance.amount},
-        ${testSavingsBucket.description},
-        ${testSavingsBucket.isActive},
-        ${testSavingsBucket.createdAt.toISOString()},
-        ${testSavingsBucket.updatedAt.toISOString()}
-      )
+      VALUES (${testSavingsBucket.id}, ${testSavingsBucket.name}, ${testSavingsBucket.targetAmount?.amount || null}, ${testSavingsBucket.currentBalance.amount}, ${testSavingsBucket.description}, ${testSavingsBucket.isActive}, ${testSavingsBucket.createdAt.toISOString()}, ${testSavingsBucket.updatedAt.toISOString()})
     `;
   });
 

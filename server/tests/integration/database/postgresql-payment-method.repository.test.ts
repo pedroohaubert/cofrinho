@@ -26,14 +26,25 @@ describe('PostgreSQLPaymentMethodRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await testSql`TRUNCATE TABLE payment_methods RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
   });
 
   const createTestPaymentMethod = (props: Partial<PaymentMethod> = {}): PaymentMethod => {
     const id = props.id || randomUUID();
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
     return new PaymentMethod(
       id,
-      props.name || `Test PM ${id.substring(0, 8)}`,
+      props.name || `Test PM ${timestamp}-${randomSuffix}`,
       props.type || PaymentMethodType.CASH,
       props.isActive !== undefined ? props.isActive : true,
       props.createdAt || new Date(),

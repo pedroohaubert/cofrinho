@@ -27,14 +27,25 @@ describe('PostgreSQLCategoryRepository Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    await testSql`TRUNCATE TABLE categories RESTART IDENTITY CASCADE;`;
+    // Clean up all tables to ensure test isolation
+    await testSql`TRUNCATE TABLE 
+      bucket_transfers, 
+      transactions, 
+      installment_plans, 
+      subscriptions, 
+      savings_buckets, 
+      payment_methods, 
+      categories 
+      RESTART IDENTITY CASCADE;`;
   });
 
   const createTestCategory = (props: Partial<Category> = {}): Category => {
     const id = props.id || randomUUID();
+    const timestamp = Date.now();
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
     return new Category(
       id,
-      props.name || `Test Category ${id.substring(0, 8)}`,
+      props.name || `Test Cat ${timestamp}-${randomSuffix}`,
       props.type || TransactionType.EXPENSE,
       props.color || '#FF0000',
       props.isActive !== undefined ? props.isActive : true,
