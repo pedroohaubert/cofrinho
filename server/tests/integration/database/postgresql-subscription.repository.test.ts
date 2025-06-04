@@ -1,11 +1,11 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { PostgreSQLSubscriptionRepository } from '../../../../src/infrastructure/database/repositories/postgresql-subscription.repository';
-import { Subscription, SubscriptionStatus } from '../../../../src/domain/entities/subscription';
-import { Category } from '../../../../src/domain/entities/category';
-import { PaymentMethod, PaymentMethodType } from '../../../../src/domain/entities/payment-method';
-import { Money } from '../../../../src/domain/value-objects/money';
-import { TransactionType } from '../../../../src/domain/value-objects/transaction-type';
+import { PostgreSQLSubscriptionRepository } from '@/infrastructure/database/repositories/postgresql-subscription.repository';
+import { Subscription, SubscriptionStatus, BillingCycle } from '@/domain/entities/subscription';
+import { Category } from '@/domain/entities/category';
+import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method';
+import { Money } from '@/domain/value-objects/money';
+import { TransactionType } from '@/domain/value-objects/transaction-type';
 import { randomUUID } from 'crypto';
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;

@@ -1,8 +1,8 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { PostgreSQLCategoryRepository } from '../../../../src/infrastructure/database/repositories/postgresql-category.repository';
-import { Category } from '../../../../src/domain/entities/category';
-import { TransactionType } from '../../../../src/domain/value-objects/transaction-type';
+import { PostgreSQLCategoryRepository } from '@/infrastructure/database/repositories/postgresql-category.repository';
+import { Category } from '@/domain/entities/category';
+import { TransactionType } from '@/domain/value-objects/transaction-type';
 import { randomUUID } from 'crypto';
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;

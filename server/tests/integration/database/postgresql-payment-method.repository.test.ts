@@ -1,7 +1,7 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { PostgreSQLPaymentMethodRepository } from '../../../../src/infrastructure/database/repositories/postgresql-payment-method.repository';
-import { PaymentMethod, PaymentMethodType } from '../../../../src/domain/entities/payment-method';
+import { PostgreSQLPaymentMethodRepository } from '@/infrastructure/database/repositories/postgresql-payment-method.repository';
+import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method';
 import { randomUUID } from 'crypto';
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;

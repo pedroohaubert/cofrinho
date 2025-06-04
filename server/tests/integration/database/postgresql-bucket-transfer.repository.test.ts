@@ -1,10 +1,10 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { PostgreSQLBucketTransferRepository } from '../../../../src/infrastructure/database/repositories/postgresql-bucket-transfer.repository';
-import { BucketTransfer, BucketTransferType } from '../../../../src/domain/entities/bucket-transfer';
-import { SavingsBucket } from '../../../../src/domain/entities/savings-bucket';
-import { Money } from '../../../../src/domain/value-objects/money';
-import { DateRange } from '../../../../src/domain/value-objects/date-range';
+import { PostgreSQLBucketTransferRepository } from '@/infrastructure/database/repositories/postgresql-bucket-transfer.repository';
+import { BucketTransfer, BucketTransferType } from '@/domain/entities/bucket-transfer';
+import { SavingsBucket } from '@/domain/entities/savings-bucket';
+import { Money } from '@/domain/value-objects/money';
+import { DateRange } from '@/domain/value-objects/date-range';
 import { randomUUID } from 'crypto';
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;

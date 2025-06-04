@@ -1,11 +1,11 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { PostgreSQLTransactionRepository } from '../../../../src/infrastructure/database/repositories/postgresql-transaction.repository';
-import { Transaction, TransactionSource } from '../../../../src/domain/entities/transaction';
-import { Money } from '../../../../src/domain/value-objects/money';
-import { TransactionType, TransactionTypeVO } from '../../../../src/domain/value-objects/transaction-type';
-import { Category } from '../../../../src/domain/entities/category';
-import { PaymentMethod, PaymentMethodType } from '../../../../src/domain/entities/payment-method';
+import { PostgreSQLTransactionRepository } from '@/infrastructure/database/repositories/postgresql-transaction.repository';
+import { Transaction, TransactionSource } from '@/domain/entities/transaction';
+import { Money } from '@/domain/value-objects/money';
+import { TransactionType, TransactionTypeVO } from '@/domain/value-objects/transaction-type';
+import { Category } from '@/domain/entities/category';
+import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method';
 import { randomUUID } from 'crypto';
 
 // Ensure TEST_DATABASE_URL is set from environment variables

@@ -1,8 +1,8 @@
 import postgres from 'postgres';
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { PostgreSQLSavingsBucketRepository } from '../../../../src/infrastructure/database/repositories/postgresql-savings-bucket.repository';
-import { SavingsBucket } from '../../../../src/domain/entities/savings-bucket';
-import { Money } from '../../../../src/domain/value-objects/money';
+import { PostgreSQLSavingsBucketRepository } from '@/infrastructure/database/repositories/postgresql-savings-bucket.repository';
+import { SavingsBucket } from '@/domain/entities/savings-bucket';
+import { Money } from '@/domain/value-objects/money';
 import { randomUUID } from 'crypto';
 
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
