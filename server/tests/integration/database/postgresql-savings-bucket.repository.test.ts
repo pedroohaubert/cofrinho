@@ -43,8 +43,8 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
   } = {}): SavingsBucket => {
     const id = props.id || randomUUID();
     const name = props.name || `Test Bucket ${id.substring(0, 8)}`;
-    const targetAmount = props.targetAmount === undefined ? new Money(1000, 'USD') : props.targetAmount;
-    const currentBalance = props.currentBalance || new Money(0, 'USD');
+    const targetAmount = props.targetAmount === undefined ? new Money(1000, 'BRL') : props.targetAmount;
+    const currentBalance = props.currentBalance || new Money(0, 'BRL');
     const description = props.description === undefined ? 'Test description' : props.description;
     const isActive = props.isActive !== undefined ? props.isActive : true;
     const createdAt = props.createdAt || new Date();
@@ -67,8 +67,8 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
     it('should save a new savings bucket and retrieve it by ID', async () => {
       const bucket = createTestSavingsBucket({
         name: 'Vacation Fund',
-        targetAmount: new Money(2000, 'EUR'),
-        currentBalance: new Money(500, 'EUR'),
+        targetAmount: new Money(2000, 'BRL'),
+        currentBalance: new Money(500, 'BRL'),
         description: 'For a trip to Europe'
       });
       await repository.save(bucket);
@@ -94,7 +94,7 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
       const bucket = createTestSavingsBucket({
         targetAmount: null,
         description: null,
-        currentBalance: new Money(100, 'GBP')
+        currentBalance: new Money(100, 'BRL')
       });
       await repository.save(bucket);
       const found = await repository.findById(bucket.id);
@@ -129,7 +129,7 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
 
   describe('update', () => {
     it('should update an existing savings bucket', async () => {
-      const bucket = createTestSavingsBucket({ name: 'Initial Name', currentBalance: new Money(100, 'USD') });
+      const bucket = createTestSavingsBucket({ name: 'Initial Name', currentBalance: new Money(100, 'BRL') });
       await repository.save(bucket);
       const initialUpdatedAt = (await repository.findById(bucket.id))!.updatedAt;
 
@@ -137,8 +137,8 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
 
       bucket.updateName('Updated Name');
       bucket.updateDescription('Updated Description');
-      bucket.updateTargetAmount(new Money(5000, 'USD'));
-      bucket.addFunds(new Money(200, 'USD')); // currentBalance is now 300
+      bucket.updateTargetAmount(new Money(5000, 'BRL'));
+      bucket.addFunds(new Money(200, 'BRL')); // currentBalance is now 300
       bucket.deactivate();
 
       await repository.update(bucket);
@@ -210,9 +210,9 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
 
   describe('findBucketsWithTargets', () => {
     it('should return active buckets that have a target amount', async () => {
-      const withTarget = createTestSavingsBucket({ name: 'Targeted', targetAmount: new Money(100) });
+      const withTarget = createTestSavingsBucket({ name: 'Targeted', targetAmount: new Money(100, 'BRL') });
       const noTarget = createTestSavingsBucket({ name: 'Untargeted', targetAmount: null });
-      const inactiveWithTarget = createTestSavingsBucket({ name: 'Inactive Targeted', targetAmount: new Money(100), isActive: false });
+      const inactiveWithTarget = createTestSavingsBucket({ name: 'Inactive Targeted', targetAmount: new Money(100, 'BRL'), isActive: false });
 
       await repository.save(withTarget);
       await repository.save(noTarget);
@@ -226,7 +226,7 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
 
   describe('findBucketsWithoutTargets', () => {
     it('should return active buckets that do not have a target amount', async () => {
-      const withTarget = createTestSavingsBucket({ name: 'Targeted One', targetAmount: new Money(100) });
+      const withTarget = createTestSavingsBucket({ name: 'Targeted One', targetAmount: new Money(100, 'BRL') });
       const noTarget = createTestSavingsBucket({ name: 'Untargeted One', targetAmount: null });
       const inactiveNoTarget = createTestSavingsBucket({ name: 'Inactive Untargeted', targetAmount: null, isActive: false });
 
@@ -242,10 +242,10 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
 
   describe('findTargetReachedBuckets', () => {
     it('should return active buckets where current balance is greater than or equal to target amount', async () => {
-      const targetReached = createTestSavingsBucket({ name: 'Reached', targetAmount: new Money(500), currentBalance: new Money(550) });
-      const targetNotReached = createTestSavingsBucket({ name: 'Not Reached', targetAmount: new Money(500), currentBalance: new Money(450) });
-      const targetReachedInactive = createTestSavingsBucket({ name: 'Reached Inactive', targetAmount: new Money(500), currentBalance: new Money(500), isActive: false });
-      const noTargetBucket = createTestSavingsBucket({ name: 'No Target Reached', targetAmount: null, currentBalance: new Money(1000) });
+      const targetReached = createTestSavingsBucket({ name: 'Reached', targetAmount: new Money(500, 'BRL'), currentBalance: new Money(550, 'BRL') });
+      const targetNotReached = createTestSavingsBucket({ name: 'Not Reached', targetAmount: new Money(500, 'BRL'), currentBalance: new Money(450, 'BRL') });
+      const targetReachedInactive = createTestSavingsBucket({ name: 'Reached Inactive', targetAmount: new Money(500, 'BRL'), currentBalance: new Money(500, 'BRL'), isActive: false });
+      const noTargetBucket = createTestSavingsBucket({ name: 'No Target Reached', targetAmount: null, currentBalance: new Money(1000, 'BRL') });
 
       await repository.save(targetReached);
       await repository.save(targetNotReached);

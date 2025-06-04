@@ -35,8 +35,8 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
     testSavingsBucket = new SavingsBucket(
       randomUUID(),
       'Test Bucket for Transfers',
-      new Money(1000, 'USD'), // target
-      new Money(500, 'USD')  // balance
+      new Money(1000, 'BRL'), // target
+      new Money(500, 'BRL')  // balance
     );
     await testSql`
       INSERT INTO savings_buckets (id, name, target_amount, current_balance, description, is_active, created_at, updated_at)
@@ -65,7 +65,7 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
     return new BucketTransfer(
       id,
       props.date || now,
-      props.amount || new Money(100, 'USD'),
+      props.amount || new Money(100, 'BRL'),
       props.type || BucketTransferType.DEPOSIT,
       props.bucketId || testSavingsBucket.id,
       props.description === undefined ? 'Test Transfer' : props.description,
@@ -79,7 +79,7 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
       const transfer = createTestBucketTransfer({
         description: 'Initial Deposit',
         type: BucketTransferType.DEPOSIT,
-        amount: new Money(200, 'USD')
+        amount: new Money(200, 'BRL')
       });
       await repository.save(transfer);
 
@@ -136,13 +136,13 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
       const originalDate = new Date('2024-01-01T12:00:00Z');
       const transfer = createTestBucketTransfer({
         description: 'Original Desc',
-        amount: new Money(100, 'USD'),
+        amount: new Money(100, 'BRL'),
         date: originalDate
       });
       await repository.save(transfer);
 
       const newDescription = 'Updated Desc';
-      const newAmount = new Money(150, 'USD');
+      const newAmount = new Money(150, 'BRL');
       const newDate = new Date('2024-01-02T12:00:00Z');
 
       // Create a new entity instance for update, as per repository pattern
@@ -179,7 +179,7 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
 
   describe('findByBucket', () => {
     it('should return all transfers for a specific bucketId', async () => {
-      const bucket2 = new SavingsBucket(randomUUID(), 'Bucket 2', null, new Money(0));
+      const bucket2 = new SavingsBucket(randomUUID(), 'Bucket 2', null, new Money(0, 'BRL'));
       await testSql`INSERT INTO savings_buckets (id, name, current_balance, created_at, updated_at) VALUES (${bucket2.id}, ${bucket2.name}, ${bucket2.currentBalance.amount}, ${bucket2.createdAt.toISOString()}, ${bucket2.updatedAt.toISOString()})`;
 
       const transfer1 = createTestBucketTransfer({ bucketId: testSavingsBucket.id });

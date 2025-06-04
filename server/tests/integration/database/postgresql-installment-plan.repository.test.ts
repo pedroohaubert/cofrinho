@@ -61,7 +61,7 @@ describe('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
     const now = new Date();
     return new InstallmentPlan(
       id,
-      props.totalAmount || new Money(1200, 'USD'),
+      props.totalAmount || new Money(1200, 'BRL'),
       props.purchaseDate || new Date(now.getFullYear(), now.getMonth(), 15),
       props.installmentCount || 12,
       props.description || `Test Plan ${id.substring(0, 8)}`,

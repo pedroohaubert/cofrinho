@@ -63,7 +63,7 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
     return new Subscription(
       id,
       props.name || `Test Sub ${id.substring(0, 8)}`,
-      props.monthlyAmount || new Money(10, 'USD'),
+      props.monthlyAmount || new Money(10, 'BRL'),
       props.startDate || new Date(now.getFullYear(), now.getMonth(), 1),
       props.categoryId || testCategory.id,
       props.paymentMethodId || testPaymentMethod.id,
@@ -76,7 +76,7 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
 
   describe('save and findById', () => {
     it('should save a new subscription and retrieve it by ID', async () => {
-      const sub = createTestSubscription({ name: 'Netflix', monthlyAmount: new Money(15.99, 'USD') });
+      const sub = createTestSubscription({ name: 'Netflix', monthlyAmount: new Money(15.99, 'BRL') });
       await repository.save(sub);
 
       const found = await repository.findById(sub.id);
