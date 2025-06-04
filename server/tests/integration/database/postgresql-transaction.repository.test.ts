@@ -80,7 +80,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       const transaction = new Transaction(
         transactionId,
         transactionDate,
-        new Money(100.50, 'USD'),
+        new Money(100.50, 'BRL'),
         testCategory.id,
         testPaymentMethod.id,
         new TransactionTypeVO(TransactionType.EXPENSE),
@@ -131,7 +131,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       let transaction = new Transaction(
         transactionId,
         initialDate,
-        new Money(150.00, 'USD'),
+        new Money(150.00, 'BRL'),
         testCategory.id,
         testPaymentMethod.id,
         new TransactionTypeVO(TransactionType.EXPENSE),
@@ -148,7 +148,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       await new Promise(resolve => setTimeout(resolve, 10));
 
       const newDescription = 'Updated transaction description';
-      const newAmount = new Money(200.75, 'USD');
+      const newAmount = new Money(200.75, 'BRL');
 
       // Re-fetch or re-create the domain object to update
       // For this test, we create a new instance with the same ID and updated values
@@ -179,7 +179,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       const transaction = new Transaction(
         randomUUID(),
         new Date(),
-        new Money(50.00, 'USD'),
+        new Money(50.00, 'BRL'),
         testCategory.id,
         testPaymentMethod.id,
         new TransactionTypeVO(TransactionType.EXPENSE),
