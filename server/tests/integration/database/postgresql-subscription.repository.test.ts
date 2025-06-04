@@ -49,7 +49,7 @@ describe('PostgreSQLSubscriptionRepository Integration Tests', () => {
   };
 
   beforeAll(async () => {
-    repository = new PostgreSQLSubscriptionRepository(testSql);
+    repository = new PostgreSQLSubscriptionRepository();
     console.log("Opened test database connection for SubscriptionRepository.");
   });
 

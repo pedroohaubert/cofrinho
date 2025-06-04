@@ -22,7 +22,7 @@ describe('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
   let testPaymentMethod: PaymentMethod;
 
   beforeAll(async () => {
-    repository = new PostgreSQLInstallmentPlanRepository(testSql);
+    repository = new PostgreSQLInstallmentPlanRepository();
     console.log("Opened test database connection for InstallmentPlanRepository.");
   });
 

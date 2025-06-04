@@ -17,7 +17,7 @@ describe('PostgreSQLSavingsBucketRepository Integration Tests', () => {
   let repository: PostgreSQLSavingsBucketRepository;
 
   beforeAll(async () => {
-    repository = new PostgreSQLSavingsBucketRepository(testSql);
+    repository = new PostgreSQLSavingsBucketRepository();
     console.log("Opened test database connection for SavingsBucketRepository.");
   });
 

@@ -16,7 +16,7 @@ describe('PostgreSQLPaymentMethodRepository Integration Tests', () => {
   let repository: PostgreSQLPaymentMethodRepository;
 
   beforeAll(async () => {
-    repository = new PostgreSQLPaymentMethodRepository(testSql);
+    repository = new PostgreSQLPaymentMethodRepository();
     console.log("Opened test database connection for PaymentMethodRepository.");
   });
 
