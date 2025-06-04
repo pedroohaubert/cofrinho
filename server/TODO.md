@@ -8,6 +8,8 @@
 - [x] Setup Vitest configuration for testing
 - [x] Setup ESLint and Prettier configurations
 - [x] Create environment configuration files
+- [x] Setup comprehensive .gitignore file ✅ Added comprehensive gitignore covering Node.js, Bun, IDEs, and environment files
+- [x] Remove sensitive files from git history ✅ Successfully removed .env file from repository history
 
 ## 📁 Project Structure (Hexagonal Architecture)
 - [x] Create domain layer structure
