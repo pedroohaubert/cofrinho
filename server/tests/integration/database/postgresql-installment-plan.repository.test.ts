@@ -8,37 +8,65 @@ import { Money } from '@/domain/value-objects/money';
 import { TransactionType } from '@/domain/value-objects/transaction-type';
 import { randomUUID } from 'crypto';
 
+// Ensure TEST_DATABASE_URL is set from environment variables
 const TEST_DATABASE_URL = process.env.TEST_DATABASE_URL;
 
-if (!TEST_DATABASE_URL) {
-  throw new Error("TEST_DATABASE_URL environment variable is not set. Please configure it for integration tests.");
+// Function to check if database is available
+async function isDatabaseAvailable(): Promise<boolean> {
+  if (!TEST_DATABASE_URL) {
+    return false;
+  }
+  
+  try {
+    const testConnection = postgres(TEST_DATABASE_URL);
+    await testConnection`SELECT 1`;
+    await testConnection.end();
+    return true;
+  } catch (error: any) {
+    console.warn('Database not available for integration tests:', error?.message || error);
+    return false;
+  }
 }
 
-const testSql = postgres(TEST_DATABASE_URL);
+// Skip all tests if database is not available
+const runTests = await isDatabaseAvailable();
 
-describe('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
+describe.skipIf(!runTests)('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
+  let testSql: postgres.Sql;
   let repository: PostgreSQLInstallmentPlanRepository;
   let testCategory: Category;
   let testPaymentMethod: PaymentMethod;
 
   beforeAll(async () => {
+    if (!runTests) return;
+    
+    testSql = postgres(TEST_DATABASE_URL!);
     repository = new PostgreSQLInstallmentPlanRepository(testSql);
-    console.log("Opened test database connection for InstallmentPlanRepository.");
+    console.log("Opened test database connection.");
   });
 
   afterAll(async () => {
+    if (!runTests || !testSql) return;
+    
     await testSql.end();
-    console.log("Closed test database connection for InstallmentPlanRepository.");
+    console.log("Closed test database connection.");
   });
 
   beforeEach(async () => {
+    if (!runTests) return;
+    
+    // Clean installment_plans, categories, and payment_methods tables before each test
     await testSql`TRUNCATE TABLE installment_plans, categories, payment_methods RESTART IDENTITY CASCADE;`;
 
+    // Insert placeholder category and payment_method for foreign key constraints
     testCategory = new Category(
       randomUUID(),
-      'Test Category For Installments',
+      'Test Category',
       TransactionType.EXPENSE,
-      '#00FF00'
+      '#FF0000',
+      true,
+      new Date(),
+      new Date()
     );
     await testSql`
       INSERT INTO categories (id, name, type, color, is_active, created_at, updated_at)
@@ -47,8 +75,11 @@ describe('PostgreSQLInstallmentPlanRepository Integration Tests', () => {
 
     testPaymentMethod = new PaymentMethod(
       randomUUID(),
-      'Test PM For Installments',
-      PaymentMethodType.CREDIT_CARD // Installments typically use credit cards
+      'Test Payment Method',
+      PaymentMethodType.CREDIT_CARD,
+      true,
+      new Date(),
+      new Date()
     );
     await testSql`
       INSERT INTO payment_methods (id, name, type, is_active, created_at, updated_at)
