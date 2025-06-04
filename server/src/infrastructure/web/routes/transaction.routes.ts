@@ -1,12 +1,12 @@
-import { TransactionController } from '../controllers/transaction.controller';
-import { createOpenAPIApp } from '../docs/openapi.config';
+import { TransactionController } from '@/infrastructure/web/controllers/transaction.controller.js';
+import { createOpenAPIApp } from '@/infrastructure/web/docs/openapi.config.js';
 import {
   listTransactionsRoute,
   createTransactionRoute,
   getTransactionRoute,
   updateTransactionRoute,
   deleteTransactionRoute
-} from '../docs/transaction.openapi';
+} from '@/infrastructure/web/docs/transaction.openapi.js';
 
 export function createTransactionRoutes(transactionController: TransactionController) {
   const router = createOpenAPIApp();

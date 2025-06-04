@@ -1,7 +1,7 @@
-import sql from '../connection';
-import { Subscription, SubscriptionStatus } from '../../../domain/entities/subscription';
-import { ISubscriptionRepository } from '../../../domain/repositories/subscription-repository';
-import { Money } from '../../../domain/value-objects/money';
+import sql from '@/infrastructure/database/connection.js';
+import { Subscription, SubscriptionStatus } from '@/domain/entities/subscription.js';
+import { ISubscriptionRepository } from '@/domain/repositories/subscription-repository.js';
+import { Money } from '@/domain/value-objects/money.js';
 
 interface SubscriptionRow {
   id: string;

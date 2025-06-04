@@ -6,7 +6,7 @@ import {
   PaymentMethodResponseSchema,
   PaymentMethodIdParamSchema,
   PaymentMethodListQuerySchema
-} from '../../../application/validation/payment-method.schema';
+} from '@/application/validation/payment-method.schema.js';
 
 const ErrorResponseSchema = z.object({
   error: z.object({

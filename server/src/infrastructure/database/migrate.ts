@@ -1,6 +1,6 @@
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
-import sql from './connection';
+import sql from '@/infrastructure/database/connection.js';
 
 interface Migration {
   version: string;

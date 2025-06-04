@@ -1,5 +1,5 @@
-import { SavingsBucketController } from '../controllers/savings-bucket.controller';
-import { createOpenAPIApp } from '../docs/openapi.config';
+import { SavingsBucketController } from '@/infrastructure/web/controllers/savings-bucket.controller.js';
+import { createOpenAPIApp } from '@/infrastructure/web/docs/openapi.config.js';
 import {
   listSavingsBucketsRoute,
   createSavingsBucketRoute,
@@ -7,9 +7,9 @@ import {
   updateSavingsBucketRoute,
   deleteSavingsBucketRoute,
   transferToBucketRoute
-} from '../docs/savings-bucket.openapi';
-import { validateBody, validateParam, idParamSchema } from '../middleware/validation.middleware';
-import { TransferToBucketSchema } from '../../../application/validation/savings-bucket.schema';
+} from '@/infrastructure/web/docs/savings-bucket.openapi.js';
+import { validateBody, validateParam, idParamSchema } from '@/infrastructure/web/middleware/validation.middleware.js';
+import { TransferToBucketSchema } from '@/application/validation/savings-bucket.schema.js';
 
 export function createSavingsBucketRoutes(savingsBucketController: SavingsBucketController) {
   const router = createOpenAPIApp();

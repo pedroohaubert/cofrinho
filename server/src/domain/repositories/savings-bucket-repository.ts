@@ -1,4 +1,4 @@
-import { SavingsBucket } from '../entities/savings-bucket.js';
+import { SavingsBucket } from '@/domain/entities/savings-bucket.js';
 
 export interface ISavingsBucketRepository {
   save(bucket: SavingsBucket): Promise<void>;

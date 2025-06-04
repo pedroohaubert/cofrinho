@@ -1,6 +1,6 @@
 import { Context } from 'hono';
-import { CreateInstallmentPlanUseCase } from '../../../application/use-cases/installment/create-installment-plan.use-case';
-import { PostgreSQLInstallmentPlanRepository } from '../../database/repositories/postgresql-installment-plan.repository';
+import { CreateInstallmentPlanUseCase } from '@/application/use-cases/installment/create-installment-plan.use-case.js';
+import { PostgreSQLInstallmentPlanRepository } from '@/infrastructure/database/repositories/postgresql-installment-plan.repository.js';
 
 export class InstallmentPlanController {
   constructor(

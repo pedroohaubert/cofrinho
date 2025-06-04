@@ -1,4 +1,4 @@
-import { Money } from '../value-objects/money.js';
+import { Money } from '@/domain/value-objects/money.js';
 
 export enum InstallmentPlanStatus {
   ACTIVE = 'active',

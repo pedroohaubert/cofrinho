@@ -1,10 +1,10 @@
-import { ReportController } from '../controllers/report.controller';
-import { createOpenAPIApp } from '../docs/openapi.config';
+import { ReportController } from '@/infrastructure/web/controllers/report.controller.js';
+import { createOpenAPIApp } from '@/infrastructure/web/docs/openapi.config.js';
 import {
   getSummaryReportRoute,
   getMonthlyReportRoute,
   getYearlyReportRoute
-} from '../docs/report.openapi';
+} from '@/infrastructure/web/docs/report.openapi.js';
 
 export function createReportRoutes(reportController: ReportController) {
   const router = createOpenAPIApp();

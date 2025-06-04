@@ -1,7 +1,7 @@
-import sql from '../connection';
-import { Category } from '../../../domain/entities/category';
-import { ICategoryRepository } from '../../../domain/repositories/category-repository';
-import { TransactionType } from '../../../domain/value-objects/transaction-type';
+import sql from '@/infrastructure/database/connection.js';
+import { Category } from '@/domain/entities/category.js';
+import { ICategoryRepository } from '@/domain/repositories/category-repository.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 interface CategoryRow {
   id: string;

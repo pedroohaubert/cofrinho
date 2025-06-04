@@ -1,9 +1,9 @@
-import { InstallmentPlan } from '../entities/installment-plan.js';
-import { Transaction, TransactionSource } from '../entities/transaction.js';
-import { TransactionType } from '../value-objects/transaction-type.js';
-import { IInstallmentPlanRepository } from '../repositories/installment-plan-repository.js';
-import { ITransactionRepository } from '../repositories/transaction-repository.js';
-import { IPaymentMethodRepository } from '../repositories/payment-method-repository.js';
+import { InstallmentPlan } from '@/domain/entities/installment-plan.js';
+import { Transaction } from '@/domain/entities/transaction.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
+import { IInstallmentPlanRepository } from '@/domain/repositories/installment-plan-repository.js';
+import { ITransactionRepository } from '@/domain/repositories/transaction-repository.js';
+import { IPaymentMethodRepository } from '@/domain/repositories/payment-method-repository.js';
 
 export class InstallmentService {
   constructor(

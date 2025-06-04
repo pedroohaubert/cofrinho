@@ -1,8 +1,8 @@
-import { ITransactionRepository } from '../../../domain/repositories/transaction-repository.js';
-import { ICategoryRepository } from '../../../domain/repositories/category-repository.js';
-import { IPaymentMethodRepository } from '../../../domain/repositories/payment-method-repository.js';
-import { TransactionService } from '../../../domain/services/transaction-service.js';
-import { UpdateTransactionDTO, TransactionResponseDTO, TransactionDTOMapper } from '../../dto/transaction.dto.js';
+import { ITransactionRepository } from '@/domain/repositories/transaction-repository.js';
+import { ICategoryRepository } from '@/domain/repositories/category-repository.js';
+import { IPaymentMethodRepository } from '@/domain/repositories/payment-method-repository.js';
+import { TransactionService } from '@/domain/services/transaction-service.js';
+import { UpdateTransactionDTO, TransactionResponseDTO, TransactionDTOMapper } from '@/application/dto/transaction.dto.js';
 
 export interface UpdateTransactionUseCaseResult {
   success: boolean;

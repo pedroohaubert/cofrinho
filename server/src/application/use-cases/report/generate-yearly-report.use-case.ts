@@ -1,5 +1,5 @@
-import { ReportingService } from '../../../domain/services/reporting-service.js';
-import { GenerateYearlyReportDTO, YearlyReportResponseDTO, ReportDTOMapper } from '../../dto/report.dto.js';
+import { ReportingService } from '@/domain/services/reporting-service.js';
+import { GenerateYearlyReportDTO, YearlyReportResponseDTO, ReportDTOMapper } from '@/application/dto/report.dto.js';
 
 export interface GenerateYearlyReportUseCaseResult {
   success: boolean;

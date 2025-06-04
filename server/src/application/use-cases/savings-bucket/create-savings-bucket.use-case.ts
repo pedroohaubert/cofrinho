@@ -1,6 +1,6 @@
-import { SavingsBucket } from '../../../domain/entities/savings-bucket.js';
-import { ISavingsBucketRepository } from '../../../domain/repositories/savings-bucket-repository.js';
-import { CreateSavingsBucketDTO, SavingsBucketResponseDTO, SavingsBucketDTOMapper } from '../../dto/savings-bucket.dto.js';
+import { SavingsBucket } from '@/domain/entities/savings-bucket.js';
+import { ISavingsBucketRepository } from '@/domain/repositories/savings-bucket-repository.js';
+import { CreateSavingsBucketDTO, SavingsBucketResponseDTO, SavingsBucketDTOMapper } from '@/application/dto/savings-bucket.dto.js';
 
 export interface CreateSavingsBucketUseCaseResult {
   success: boolean;

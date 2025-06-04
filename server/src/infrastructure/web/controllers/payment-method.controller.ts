@@ -1,6 +1,6 @@
 import { Context } from 'hono';
-import { PostgreSQLPaymentMethodRepository } from '../../database/repositories/postgresql-payment-method.repository';
-import { PaymentMethod, PaymentMethodType } from '../../../domain/entities/payment-method';
+import { PostgreSQLPaymentMethodRepository } from '@/infrastructure/database/repositories/postgresql-payment-method.repository.js';
+import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method.js';
 
 export class PaymentMethodController {
   constructor(private paymentMethodRepository: PostgreSQLPaymentMethodRepository) {}

@@ -1,7 +1,7 @@
-import sql from '../connection';
-import { InstallmentPlan, InstallmentPlanStatus } from '../../../domain/entities/installment-plan';
-import { IInstallmentPlanRepository } from '../../../domain/repositories/installment-plan-repository';
-import { Money } from '../../../domain/value-objects/money';
+import sql from '@/infrastructure/database/connection.js';
+import { InstallmentPlan, InstallmentPlanStatus } from '@/domain/entities/installment-plan.js';
+import { IInstallmentPlanRepository } from '@/domain/repositories/installment-plan-repository.js';
+import { Money } from '@/domain/value-objects/money.js';
 
 interface InstallmentPlanRow {
   id: string;

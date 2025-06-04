@@ -1,4 +1,4 @@
-import { TransactionType } from '../value-objects/transaction-type.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 export class Category {
   private readonly _id: string;

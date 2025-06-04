@@ -1,8 +1,8 @@
-import { Subscription } from '../entities/subscription.js';
-import { Transaction } from '../entities/transaction.js';
-import { TransactionType } from '../value-objects/transaction-type.js';
-import { ISubscriptionRepository } from '../repositories/subscription-repository.js';
-import { ITransactionRepository } from '../repositories/transaction-repository.js';
+import { Subscription } from '@/domain/entities/subscription.js';
+import { Transaction } from '@/domain/entities/transaction.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
+import { ISubscriptionRepository } from '@/domain/repositories/subscription-repository.js';
+import { ITransactionRepository } from '@/domain/repositories/transaction-repository.js';
 
 export class SubscriptionService {
   constructor(

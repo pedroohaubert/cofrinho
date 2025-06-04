@@ -1,4 +1,4 @@
-import { PaymentMethod, PaymentMethodType } from '../entities/payment-method.js';
+import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method.js';
 
 export interface IPaymentMethodRepository {
   save(paymentMethod: PaymentMethod): Promise<void>;

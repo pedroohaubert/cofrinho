@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { createBasicCRUDRoutes } from './generate-all-docs';
+import { createBasicCRUDRoutes } from '@/infrastructure/web/docs/generate-all-docs.js';
 import {
   CreateInstallmentPlanSchema,
   UpdateInstallmentPlanSchema,
   InstallmentPlanResponseSchema
-} from '../../../application/validation/installment-plan.schema';
+} from '@/application/validation/installment-plan.schema.js';
 
 // Generate basic CRUD routes for installment plans
 export const installmentPlanRoutes = createBasicCRUDRoutes('installment-plans', {

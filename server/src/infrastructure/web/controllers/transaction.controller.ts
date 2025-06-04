@@ -1,8 +1,8 @@
 import { Context } from 'hono';
-import { CreateTransactionUseCase } from '../../../application/use-cases/transaction/create-transaction.use-case';
-import { UpdateTransactionUseCase } from '../../../application/use-cases/transaction/update-transaction.use-case';
-import { DeleteTransactionUseCase } from '../../../application/use-cases/transaction/delete-transaction.use-case';
-import { ListTransactionsUseCase } from '../../../application/use-cases/transaction/list-transactions.use-case';
+import { CreateTransactionUseCase } from '@/application/use-cases/transaction/create-transaction.use-case.js';
+import { UpdateTransactionUseCase } from '@/application/use-cases/transaction/update-transaction.use-case.js';
+import { DeleteTransactionUseCase } from '@/application/use-cases/transaction/delete-transaction.use-case.js';
+import { ListTransactionsUseCase } from '@/application/use-cases/transaction/list-transactions.use-case.js';
 import { 
   CreateTransactionSchema,
   UpdateTransactionSchema,

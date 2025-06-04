@@ -1,5 +1,5 @@
-import { Transaction } from '../entities/transaction.js';
-import { DateRange } from '../value-objects/date-range.js';
+import { Transaction } from '@/domain/entities/transaction.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
 
 export interface ITransactionRepository {
   save(transaction: Transaction): Promise<void>;

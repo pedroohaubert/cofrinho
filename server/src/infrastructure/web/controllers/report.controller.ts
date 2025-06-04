@@ -1,6 +1,6 @@
 import { Context } from 'hono';
-import { GenerateMonthlyReportUseCase } from '../../../application/use-cases/report/generate-monthly-report.use-case';
-import { GenerateYearlyReportUseCase } from '../../../application/use-cases/report/generate-yearly-report.use-case';
+import { GenerateMonthlyReportUseCase } from '@/application/use-cases/report/generate-monthly-report.use-case.js';
+import { GenerateYearlyReportUseCase } from '@/application/use-cases/report/generate-yearly-report.use-case.js';
 
 export class ReportController {
   constructor(

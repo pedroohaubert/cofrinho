@@ -1,6 +1,6 @@
-import sql from '../connection';
-import { PaymentMethod, PaymentMethodType } from '../../../domain/entities/payment-method';
-import { IPaymentMethodRepository } from '../../../domain/repositories/payment-method-repository';
+import sql from '@/infrastructure/database/connection.js';
+import { PaymentMethod, PaymentMethodType } from '@/domain/entities/payment-method.js';
+import { IPaymentMethodRepository } from '@/domain/repositories/payment-method-repository.js';
 
 interface PaymentMethodRow {
   id: string;

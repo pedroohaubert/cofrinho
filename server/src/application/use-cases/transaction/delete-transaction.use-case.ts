@@ -1,4 +1,4 @@
-import { ITransactionRepository } from '../../../domain/repositories/transaction-repository.js';
+import { ITransactionRepository } from '@/domain/repositories/transaction-repository.js';
 
 export interface DeleteTransactionUseCaseResult {
   success: boolean;

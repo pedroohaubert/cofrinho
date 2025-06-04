@@ -1,4 +1,4 @@
-import sql from './connection';
+import sql from '@/infrastructure/database/connection.js';
 
 // Default categories to seed
 const defaultCategories = [

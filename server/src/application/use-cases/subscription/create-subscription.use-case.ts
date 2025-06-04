@@ -1,9 +1,9 @@
-import { Subscription } from '../../../domain/entities/subscription.js';
-import { ISubscriptionRepository } from '../../../domain/repositories/subscription-repository.js';
-import { ICategoryRepository } from '../../../domain/repositories/category-repository.js';
-import { IPaymentMethodRepository } from '../../../domain/repositories/payment-method-repository.js';
-import { CreateSubscriptionDTO, SubscriptionResponseDTO, SubscriptionDTOMapper } from '../../dto/subscription.dto.js';
-import { TransactionType } from '../../../domain/value-objects/transaction-type.js';
+import { Subscription } from '@/domain/entities/subscription.js';
+import { ISubscriptionRepository } from '@/domain/repositories/subscription-repository.js';
+import { ICategoryRepository } from '@/domain/repositories/category-repository.js';
+import { IPaymentMethodRepository } from '@/domain/repositories/payment-method-repository.js';
+import { CreateSubscriptionDTO, SubscriptionResponseDTO, SubscriptionDTOMapper } from '@/application/dto/subscription.dto.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 export interface CreateSubscriptionUseCaseResult {
   success: boolean;

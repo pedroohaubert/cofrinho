@@ -6,7 +6,7 @@ import {
   getCategoryRoute,
   updateCategoryRoute,
   deleteCategoryRoute
-} from '../docs/category.openapi';
+} from '@/infrastructure/web/docs/category.openapi.js';
 
 export function createCategoryRoutes(categoryController: CategoryController) {
   const router = createOpenAPIApp();

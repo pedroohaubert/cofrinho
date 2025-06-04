@@ -1,12 +1,12 @@
 import { z } from 'zod';
-import { createBasicCRUDRoutes } from './generate-all-docs';
+import { createBasicCRUDRoutes } from '@/infrastructure/web/docs/generate-all-docs.js';
 import {
   CreateSavingsBucketSchema,
   UpdateSavingsBucketSchema,
   SavingsBucketResponseSchema,
   TransferToBucketSchema,
   BucketTransferResponseSchema
-} from '../../../application/validation/savings-bucket.schema';
+} from '@/application/validation/savings-bucket.schema.js';
 
 // Generate basic CRUD routes for savings buckets
 export const savingsBucketRoutes = createBasicCRUDRoutes('buckets', {

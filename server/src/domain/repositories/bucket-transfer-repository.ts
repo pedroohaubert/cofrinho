@@ -1,5 +1,5 @@
-import { BucketTransfer, BucketTransferType } from '../entities/bucket-transfer.js';
-import { DateRange } from '../value-objects/date-range.js';
+import { BucketTransfer, BucketTransferType } from '@/domain/entities/bucket-transfer.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
 
 export interface IBucketTransferRepository {
   save(transfer: BucketTransfer): Promise<void>;

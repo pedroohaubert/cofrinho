@@ -1,7 +1,7 @@
-import sql from '../connection';
-import { SavingsBucket } from '../../../domain/entities/savings-bucket';
-import { ISavingsBucketRepository } from '../../../domain/repositories/savings-bucket-repository';
-import { Money } from '../../../domain/value-objects/money';
+import sql from '@/infrastructure/database/connection.js';
+import { SavingsBucket } from '@/domain/entities/savings-bucket.js';
+import { ISavingsBucketRepository } from '@/domain/repositories/savings-bucket-repository.js';
+import { Money } from '@/domain/value-objects/money.js';
 
 interface SavingsBucketRow {
   id: string;

@@ -1,4 +1,4 @@
-import { TransactionType } from '../../domain/value-objects/transaction-type.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 // Request DTOs
 export interface CreateCategoryDTO {

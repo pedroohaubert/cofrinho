@@ -1,6 +1,6 @@
-import { ITransactionRepository, TransactionFilters } from '../../../domain/repositories/transaction-repository.js';
-import { ListTransactionsDTO, PaginatedTransactionsResponseDTO, TransactionDTOMapper } from '../../dto/transaction.dto.js';
-import { DateRange } from '../../../domain/value-objects/date-range.js';
+import { ITransactionRepository, TransactionFilters } from '@/domain/repositories/transaction-repository.js';
+import { ListTransactionsDTO, PaginatedTransactionsResponseDTO, TransactionDTOMapper } from '@/application/dto/transaction.dto.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
 
 export interface ListTransactionsUseCaseResult {
   success: boolean;

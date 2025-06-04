@@ -7,7 +7,7 @@ import {
   TransactionResponseSchema,
   PaginatedTransactionsResponseSchema,
   TransactionIdParamSchema
-} from '../../../application/validation/transaction.schema';
+} from '@/application/validation/transaction.schema.js';
 
 const ErrorResponseSchema = z.object({
   error: z.object({

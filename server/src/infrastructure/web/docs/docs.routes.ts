@@ -1,6 +1,6 @@
 import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
-import { openAPIConfig } from './openapi.config';
+import { openAPIConfig } from '@/infrastructure/web/docs/openapi.config.js';
 
 export function createDocsRoutes(app: OpenAPIHono) {
   // Generate OpenAPI spec

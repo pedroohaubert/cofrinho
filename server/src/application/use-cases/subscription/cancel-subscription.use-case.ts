@@ -1,5 +1,5 @@
-import { ISubscriptionRepository } from '../../../domain/repositories/subscription-repository.js';
-import { CancelSubscriptionDTO, SubscriptionResponseDTO, SubscriptionDTOMapper } from '../../dto/subscription.dto.js';
+import { ISubscriptionRepository } from '@/domain/repositories/subscription-repository.js';
+import { CancelSubscriptionDTO, SubscriptionResponseDTO, SubscriptionDTOMapper } from '@/application/dto/subscription.dto.js';
 
 export interface CancelSubscriptionUseCaseResult {
   success: boolean;

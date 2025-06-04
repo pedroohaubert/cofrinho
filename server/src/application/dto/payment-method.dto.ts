@@ -1,4 +1,4 @@
-import { PaymentMethodType } from '../../domain/entities/payment-method.js';
+import { PaymentMethodType } from '@/domain/entities/payment-method.js';
 
 // Request DTOs
 export interface CreatePaymentMethodDTO {

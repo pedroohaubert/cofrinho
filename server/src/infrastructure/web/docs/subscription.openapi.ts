@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { createBasicCRUDRoutes } from './generate-all-docs';
+import { createBasicCRUDRoutes } from '@/infrastructure/web/docs/generate-all-docs.js';
 import {
   CreateSubscriptionSchema,
   UpdateSubscriptionSchema,
   SubscriptionResponseSchema
-} from '../../../application/validation/subscription.schema';
+} from '@/application/validation/subscription.schema.js';
 
 // Generate basic CRUD routes for subscriptions
 export const subscriptionRoutes = createBasicCRUDRoutes('subscriptions', {

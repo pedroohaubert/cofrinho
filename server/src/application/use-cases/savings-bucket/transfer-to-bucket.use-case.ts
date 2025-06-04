@@ -1,7 +1,7 @@
-import { ISavingsBucketRepository } from '../../../domain/repositories/savings-bucket-repository.js';
-import { SavingsBucketService } from '../../../domain/services/savings-bucket-service.js';
-import { TransferToBucketDTO, BucketTransferResponseDTO, SavingsBucketDTOMapper } from '../../dto/savings-bucket.dto.js';
-import { BucketTransferType } from '../../../domain/entities/bucket-transfer.js';
+import { ISavingsBucketRepository } from '@/domain/repositories/savings-bucket-repository.js';
+import { SavingsBucketService } from '@/domain/services/savings-bucket-service.js';
+import { TransferToBucketDTO, BucketTransferResponseDTO, SavingsBucketDTOMapper } from '@/application/dto/savings-bucket.dto.js';
+import { BucketTransferType } from '@/domain/entities/bucket-transfer.js';
 
 export interface TransferToBucketUseCaseResult {
   success: boolean;

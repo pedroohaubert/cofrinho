@@ -1,5 +1,5 @@
-import { Money } from '../value-objects/money.js';
-import { TransactionType } from '../value-objects/transaction-type.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 export enum TransactionSource {
   MANUAL = 'manual',

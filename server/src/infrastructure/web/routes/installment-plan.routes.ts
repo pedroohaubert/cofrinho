@@ -1,12 +1,12 @@
-import { InstallmentPlanController } from '../controllers/installment-plan.controller';
-import { createOpenAPIApp } from '../docs/openapi.config';
+import { InstallmentPlanController } from '@/infrastructure/web/controllers/installment-plan.controller.js';
+import { createOpenAPIApp } from '@/infrastructure/web/docs/openapi.config.js';
 import {
   listInstallmentPlansRoute,
   createInstallmentPlanRoute,
   getInstallmentPlanRoute,
   updateInstallmentPlanRoute,
   deleteInstallmentPlanRoute
-} from '../docs/installment-plan.openapi';
+} from '@/infrastructure/web/docs/installment-plan.openapi.js';
 
 export function createInstallmentPlanRoutes(installmentPlanController: InstallmentPlanController) {
   const router = createOpenAPIApp();

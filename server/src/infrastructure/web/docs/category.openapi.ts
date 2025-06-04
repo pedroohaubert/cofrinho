@@ -6,7 +6,7 @@ import {
   CategoryResponseSchema,
   CategoryIdParamSchema,
   CategoryListQuerySchema
-} from '../../../application/validation/category.schema';
+} from '@/application/validation/category.schema.js';
 
 const ErrorResponseSchema = z.object({
   error: z.object({

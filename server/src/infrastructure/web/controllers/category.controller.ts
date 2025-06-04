@@ -1,7 +1,7 @@
 import { Context } from 'hono';
-import { PostgreSQLCategoryRepository } from '../../database/repositories/postgresql-category.repository';
-import { Category } from '../../../domain/entities/category';
-import { TransactionType } from '../../../domain/value-objects/transaction-type';
+import { PostgreSQLCategoryRepository } from '@/infrastructure/database/repositories/postgresql-category.repository.js';
+import { Category } from '@/domain/entities/category.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 export class CategoryController {
   constructor(private categoryRepository: PostgreSQLCategoryRepository) {}

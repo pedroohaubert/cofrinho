@@ -1,14 +1,14 @@
-import { SubscriptionController } from '../controllers/subscription.controller';
-import { createOpenAPIApp } from '../docs/openapi.config';
+import { SubscriptionController } from '@/infrastructure/web/controllers/subscription.controller.js';
+import { createOpenAPIApp } from '@/infrastructure/web/docs/openapi.config.js';
 import {
   listSubscriptionsRoute,
   createSubscriptionRoute,
   getSubscriptionRoute,
   updateSubscriptionRoute,
   deleteSubscriptionRoute
-} from '../docs/subscription.openapi';
-import { validateBody, validateParam, idParamSchema } from '../middleware/validation.middleware';
-import { CancelSubscriptionSchema } from '../../../application/validation/subscription.schema';
+} from '@/infrastructure/web/docs/subscription.openapi.js';
+import { validateBody, validateParam, idParamSchema } from '@/infrastructure/web/middleware/validation.middleware.js';
+import { CancelSubscriptionSchema } from '@/application/validation/subscription.schema.js';
 
 export function createSubscriptionRoutes(subscriptionController: SubscriptionController) {
   const router = createOpenAPIApp();

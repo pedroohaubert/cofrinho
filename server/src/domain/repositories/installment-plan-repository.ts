@@ -1,4 +1,4 @@
-import { InstallmentPlan, InstallmentPlanStatus } from '../entities/installment-plan.js';
+import { InstallmentPlan, InstallmentPlanStatus } from '@/domain/entities/installment-plan.js';
 
 export interface IInstallmentPlanRepository {
   save(installmentPlan: InstallmentPlan): Promise<void>;

@@ -1,5 +1,5 @@
-import { Money } from '../../domain/value-objects/money.js';
-import { InstallmentPlanStatus } from '../../domain/entities/installment-plan.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { InstallmentPlanStatus } from '@/domain/entities/installment-plan.js';
 
 // Request DTOs
 export interface CreateInstallmentPlanDTO {

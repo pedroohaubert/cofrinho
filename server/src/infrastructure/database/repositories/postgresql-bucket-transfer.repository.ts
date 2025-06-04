@@ -1,8 +1,8 @@
-import sql from '../connection';
-import { BucketTransfer, BucketTransferType } from '../../../domain/entities/bucket-transfer';
-import { IBucketTransferRepository } from '../../../domain/repositories/bucket-transfer-repository';
-import { Money } from '../../../domain/value-objects/money';
-import { DateRange } from '../../../domain/value-objects/date-range';
+import sql from '@/infrastructure/database/connection.js';
+import { BucketTransfer, BucketTransferType } from '@/domain/entities/bucket-transfer.js';
+import { IBucketTransferRepository } from '@/domain/repositories/bucket-transfer-repository.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
 
 interface BucketTransferRow {
   id: string;

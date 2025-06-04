@@ -1,9 +1,9 @@
-import sql from '../connection';
-import { Transaction, TransactionSource } from '../../../domain/entities/transaction';
-import { ITransactionRepository, TransactionFilters, PaginatedResult, MonthlyTotal } from '../../../domain/repositories/transaction-repository';
-import { Money } from '../../../domain/value-objects/money';
-import { TransactionType } from '../../../domain/value-objects/transaction-type';
-import { DateRange } from '../../../domain/value-objects/date-range';
+import sql from '@/infrastructure/database/connection.js';
+import { Transaction, TransactionSource } from '@/domain/entities/transaction.js';
+import { ITransactionRepository, TransactionFilters, PaginatedResult, MonthlyTotal } from '@/domain/repositories/transaction-repository.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
 
 interface TransactionRow {
   id: string;

@@ -1,7 +1,7 @@
 import { Context } from 'hono';
-import { CreateSubscriptionUseCase } from '../../../application/use-cases/subscription/create-subscription.use-case';
-import { CancelSubscriptionUseCase } from '../../../application/use-cases/subscription/cancel-subscription.use-case';
-import { PostgreSQLSubscriptionRepository } from '../../database/repositories/postgresql-subscription.repository';
+import { CreateSubscriptionUseCase } from '@/application/use-cases/subscription/create-subscription.use-case.js';
+import { CancelSubscriptionUseCase } from '@/application/use-cases/subscription/cancel-subscription.use-case.js';
+import { PostgreSQLSubscriptionRepository } from '@/infrastructure/database/repositories/postgresql-subscription.repository.js';
 
 export class SubscriptionController {
   constructor(

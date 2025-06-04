@@ -1,11 +1,11 @@
-import { Money } from '../value-objects/money.js';
-import { DateRange } from '../value-objects/date-range.js';
-import { TransactionType } from '../value-objects/transaction-type.js';
-import { ITransactionRepository } from '../repositories/transaction-repository.js';
-import { ICategoryRepository } from '../repositories/category-repository.js';
-import { IPaymentMethodRepository } from '../repositories/payment-method-repository.js';
-import { ISubscriptionRepository } from '../repositories/subscription-repository.js';
-import { ISavingsBucketRepository } from '../repositories/savings-bucket-repository.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
+import { ITransactionRepository } from '@/domain/repositories/transaction-repository.js';
+import { ICategoryRepository } from '@/domain/repositories/category-repository.js';
+import { IPaymentMethodRepository } from '@/domain/repositories/payment-method-repository.js';
+import { ISubscriptionRepository } from '@/domain/repositories/subscription-repository.js';
+import { ISavingsBucketRepository } from '@/domain/repositories/savings-bucket-repository.js';
 
 export class ReportingService {
   constructor(

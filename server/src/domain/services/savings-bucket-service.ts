@@ -1,12 +1,12 @@
-import { SavingsBucket } from '../entities/savings-bucket.js';
+import { SavingsBucket } from '@/domain/entities/savings-bucket.js';
 import {
   BucketTransfer,
   BucketTransferType,
-} from '../entities/bucket-transfer.js';
-import { Money } from '../value-objects/money.js';
-import { DateRange } from '../value-objects/date-range.js';
-import { ISavingsBucketRepository } from '../repositories/savings-bucket-repository.js';
-import { IBucketTransferRepository } from '../repositories/bucket-transfer-repository.js';
+} from '@/domain/entities/bucket-transfer.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { DateRange } from '@/domain/value-objects/date-range.js';
+import { ISavingsBucketRepository } from '@/domain/repositories/savings-bucket-repository.js';
+import { IBucketTransferRepository } from '@/domain/repositories/bucket-transfer-repository.js';
 
 export class SavingsBucketService {
   constructor(

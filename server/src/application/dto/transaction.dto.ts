@@ -1,6 +1,6 @@
-import { Money } from '../../domain/value-objects/money.js';
-import { TransactionType } from '../../domain/value-objects/transaction-type.js';
-import { TransactionSource } from '../../domain/entities/transaction.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
+import { TransactionSource } from '@/domain/entities/transaction.js';
 
 // Request DTOs
 export interface CreateTransactionDTO {

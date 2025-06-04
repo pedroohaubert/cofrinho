@@ -1,5 +1,5 @@
-import { Category } from '../entities/category.js';
-import { TransactionType } from '../value-objects/transaction-type.js';
+import { Category } from '@/domain/entities/category.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 export interface ICategoryRepository {
   save(category: Category): Promise<void>;

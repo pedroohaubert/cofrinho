@@ -1,12 +1,12 @@
-import { PaymentMethodController } from '../controllers/payment-method.controller';
-import { createOpenAPIApp } from '../docs/openapi.config';
+import { PaymentMethodController } from '@/infrastructure/web/controllers/payment-method.controller.js';
+import { createOpenAPIApp } from '@/infrastructure/web/docs/openapi.config.js';
 import {
   listPaymentMethodsRoute,
   createPaymentMethodRoute,
   getPaymentMethodRoute,
   updatePaymentMethodRoute,
   deletePaymentMethodRoute
-} from '../docs/payment-method.openapi';
+} from '@/infrastructure/web/docs/payment-method.openapi.js';
 
 export function createPaymentMethodRoutes(paymentMethodController: PaymentMethodController) {
   const router = createOpenAPIApp();

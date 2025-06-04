@@ -1,4 +1,4 @@
-import { Subscription, SubscriptionStatus } from '../entities/subscription.js';
+import { Subscription, SubscriptionStatus } from '@/domain/entities/subscription.js';
 
 export interface ISubscriptionRepository {
   save(subscription: Subscription): Promise<void>;

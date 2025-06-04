@@ -1,4 +1,4 @@
-import { Money } from '../../domain/value-objects/money.js';
+import { Money } from '@/domain/value-objects/money.js';
 
 // Request DTOs
 export interface CreateSavingsBucketDTO {

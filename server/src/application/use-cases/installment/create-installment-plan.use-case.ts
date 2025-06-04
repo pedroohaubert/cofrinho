@@ -1,10 +1,10 @@
-import { InstallmentPlan } from '../../../domain/entities/installment-plan.js';
-import { IInstallmentPlanRepository } from '../../../domain/repositories/installment-plan-repository.js';
-import { ICategoryRepository } from '../../../domain/repositories/category-repository.js';
-import { IPaymentMethodRepository } from '../../../domain/repositories/payment-method-repository.js';
-import { InstallmentService } from '../../../domain/services/installment-service.js';
+import { InstallmentPlan } from '@/domain/entities/installment-plan.js';
+import { IInstallmentPlanRepository } from '@/domain/repositories/installment-plan-repository.js';
+import { ICategoryRepository } from '@/domain/repositories/category-repository.js';
+import { IPaymentMethodRepository } from '@/domain/repositories/payment-method-repository.js';
+import { InstallmentService } from '@/domain/services/installment-service.js';
 import { CreateInstallmentPlanDTO, InstallmentPlanResponseDTO, InstallmentPlanDTOMapper } from '../../dto/installment-plan.dto.js';
-import { TransactionType } from '../../../domain/value-objects/transaction-type.js';
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 
 export interface CreateInstallmentPlanUseCaseResult {
   success: boolean;

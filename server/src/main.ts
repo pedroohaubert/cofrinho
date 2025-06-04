@@ -3,55 +3,55 @@ import 'dotenv/config';
 import { OpenAPIHono } from '@hono/zod-openapi';
 
 // Infrastructure imports
-import { checkDatabaseConnection, closeDatabaseConnection } from './infrastructure/database/connection';
-import { corsMiddleware } from './infrastructure/web/middleware/cors.middleware';
-import { loggerMiddleware } from './infrastructure/web/middleware/logger.middleware';
-import { errorHandlerMiddleware } from './infrastructure/web/middleware/error-handler.middleware';
+import { checkDatabaseConnection, closeDatabaseConnection } from '@/infrastructure/database/connection.js';
+import { corsMiddleware } from '@/infrastructure/web/middleware/cors.middleware.js';
+import { loggerMiddleware } from '@/infrastructure/web/middleware/logger.middleware.js';
+import { errorHandlerMiddleware } from '@/infrastructure/web/middleware/error-handler.middleware.js';
 
 // Documentation
-import { createDocsRoutes } from './infrastructure/web/docs/docs.routes';
-import { openAPIConfig } from './infrastructure/web/docs/openapi.config';
+import { createDocsRoutes } from '@/infrastructure/web/docs/docs.routes.js';
+import { openAPIConfig } from '@/infrastructure/web/docs/openapi.config.js';
 
 // Repository implementations
-import { PostgreSQLTransactionRepository } from './infrastructure/database/repositories/postgresql-transaction.repository';
-import { PostgreSQLCategoryRepository } from './infrastructure/database/repositories/postgresql-category.repository';
-import { PostgreSQLPaymentMethodRepository } from './infrastructure/database/repositories/postgresql-payment-method.repository';
-import { PostgreSQLInstallmentPlanRepository } from './infrastructure/database/repositories/postgresql-installment-plan.repository';
-import { PostgreSQLSubscriptionRepository } from './infrastructure/database/repositories/postgresql-subscription.repository';
-import { PostgreSQLSavingsBucketRepository } from './infrastructure/database/repositories/postgresql-savings-bucket.repository';
-import { PostgreSQLBucketTransferRepository } from './infrastructure/database/repositories/postgresql-bucket-transfer.repository';
+import { PostgreSQLTransactionRepository } from '@/infrastructure/database/repositories/postgresql-transaction.repository.js';
+import { PostgreSQLCategoryRepository } from '@/infrastructure/database/repositories/postgresql-category.repository.js';
+import { PostgreSQLPaymentMethodRepository } from '@/infrastructure/database/repositories/postgresql-payment-method.repository.js';
+import { PostgreSQLInstallmentPlanRepository } from '@/infrastructure/database/repositories/postgresql-installment-plan.repository.js';
+import { PostgreSQLSubscriptionRepository } from '@/infrastructure/database/repositories/postgresql-subscription.repository.js';
+import { PostgreSQLSavingsBucketRepository } from '@/infrastructure/database/repositories/postgresql-savings-bucket.repository.js';
+import { PostgreSQLBucketTransferRepository } from '@/infrastructure/database/repositories/postgresql-bucket-transfer.repository.js';
 
 // Domain services
-import { TransactionService } from './domain/services/transaction-service';
-import { InstallmentService } from './domain/services/installment-service';
-import { SubscriptionService } from './domain/services/subscription-service';
-import { ReportingService } from './domain/services/reporting-service';
-import { SavingsBucketService } from './domain/services/savings-bucket-service';
+import { TransactionService } from '@/domain/services/transaction-service.js';
+import { InstallmentService } from '@/domain/services/installment-service.js';
+import { SubscriptionService } from '@/domain/services/subscription-service.js';
+import { ReportingService } from '@/domain/services/reporting-service.js';
+import { SavingsBucketService } from '@/domain/services/savings-bucket-service.js';
 
 // Use cases
-import { CreateTransactionUseCase } from './application/use-cases/transaction/create-transaction.use-case';
-import { UpdateTransactionUseCase } from './application/use-cases/transaction/update-transaction.use-case';
-import { DeleteTransactionUseCase } from './application/use-cases/transaction/delete-transaction.use-case';
-import { ListTransactionsUseCase } from './application/use-cases/transaction/list-transactions.use-case';
-import { CreateInstallmentPlanUseCase } from './application/use-cases/installment/create-installment-plan.use-case';
-import { CreateSubscriptionUseCase } from './application/use-cases/subscription/create-subscription.use-case';
-import { CancelSubscriptionUseCase } from './application/use-cases/subscription/cancel-subscription.use-case';
-import { GenerateMonthlyReportUseCase } from './application/use-cases/report/generate-monthly-report.use-case';
-import { GenerateYearlyReportUseCase } from './application/use-cases/report/generate-yearly-report.use-case';
-import { CreateSavingsBucketUseCase } from './application/use-cases/savings-bucket/create-savings-bucket.use-case';
-import { TransferToBucketUseCase } from './application/use-cases/savings-bucket/transfer-to-bucket.use-case';
+import { CreateTransactionUseCase } from '@/application/use-cases/transaction/create-transaction.use-case.js';
+import { UpdateTransactionUseCase } from '@/application/use-cases/transaction/update-transaction.use-case.js';
+import { DeleteTransactionUseCase } from '@/application/use-cases/transaction/delete-transaction.use-case.js';
+import { ListTransactionsUseCase } from '@/application/use-cases/transaction/list-transactions.use-case.js';
+import { CreateInstallmentPlanUseCase } from '@/application/use-cases/installment/create-installment-plan.use-case.js';
+import { CreateSubscriptionUseCase } from '@/application/use-cases/subscription/create-subscription.use-case.js';
+import { CancelSubscriptionUseCase } from '@/application/use-cases/subscription/cancel-subscription.use-case.js';
+import { GenerateMonthlyReportUseCase } from '@/application/use-cases/report/generate-monthly-report.use-case.js';
+import { GenerateYearlyReportUseCase } from '@/application/use-cases/report/generate-yearly-report.use-case.js';
+import { CreateSavingsBucketUseCase } from '@/application/use-cases/savings-bucket/create-savings-bucket.use-case.js';
+import { TransferToBucketUseCase } from '@/application/use-cases/savings-bucket/transfer-to-bucket.use-case.js';
 
 // Controllers
-import { TransactionController } from './infrastructure/web/controllers/transaction.controller';
-import { CategoryController } from './infrastructure/web/controllers/category.controller';
-import { PaymentMethodController } from './infrastructure/web/controllers/payment-method.controller';
-import { SubscriptionController } from './infrastructure/web/controllers/subscription.controller';
-import { SavingsBucketController } from './infrastructure/web/controllers/savings-bucket.controller';
-import { InstallmentPlanController } from './infrastructure/web/controllers/installment-plan.controller';
-import { ReportController } from './infrastructure/web/controllers/report.controller';
+import { TransactionController } from '@/infrastructure/web/controllers/transaction.controller.js';
+import { CategoryController } from '@/infrastructure/web/controllers/category.controller.js';
+import { PaymentMethodController } from '@/infrastructure/web/controllers/payment-method.controller.js';
+import { SubscriptionController } from '@/infrastructure/web/controllers/subscription.controller.js';
+import { SavingsBucketController } from '@/infrastructure/web/controllers/savings-bucket.controller.js';
+import { InstallmentPlanController } from '@/infrastructure/web/controllers/installment-plan.controller.js';
+import { ReportController } from '@/infrastructure/web/controllers/report.controller.js';
 
 // Routes
-import { createApiRoutes, RouteControllers } from './infrastructure/web/routes';
+import { createApiRoutes, RouteControllers } from '@/infrastructure/web/routes/index.js';
 
 // Initialize application with OpenAPI support
 const app = new OpenAPIHono({

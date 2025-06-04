@@ -1,5 +1,5 @@
-import { Money } from '../../domain/value-objects/money.js';
-import { SubscriptionStatus } from '../../domain/entities/subscription.js';
+import { Money } from '@/domain/value-objects/money.js';
+import { SubscriptionStatus } from '@/domain/entities/subscription.js';
 
 // Request DTOs
 export interface CreateSubscriptionDTO {

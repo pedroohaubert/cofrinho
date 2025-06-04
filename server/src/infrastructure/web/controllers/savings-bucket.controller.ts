@@ -1,7 +1,7 @@
 import { Context } from 'hono';
-import { CreateSavingsBucketUseCase } from '../../../application/use-cases/savings-bucket/create-savings-bucket.use-case';
-import { TransferToBucketUseCase } from '../../../application/use-cases/savings-bucket/transfer-to-bucket.use-case';
-import { PostgreSQLSavingsBucketRepository } from '../../database/repositories/postgresql-savings-bucket.repository';
+import { CreateSavingsBucketUseCase } from '@/application/use-cases/savings-bucket/create-savings-bucket.use-case.js';
+import { TransferToBucketUseCase } from '@/application/use-cases/savings-bucket/transfer-to-bucket.use-case.js';
+import { PostgreSQLSavingsBucketRepository } from '@/infrastructure/database/repositories/postgresql-savings-bucket.repository.js';
 
 export class SavingsBucketController {
   constructor(
