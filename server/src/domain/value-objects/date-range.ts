@@ -29,7 +29,7 @@ export class DateRange {
 
   getDurationInDays(): number {
     const timeDiff = this._endDate.getTime() - this._startDate.getTime();
-    return Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // +1 to include both start and end dates
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 
   overlaps(other: DateRange): boolean {
@@ -64,6 +64,13 @@ export class DateRange {
   }
 
   static customRange(startDate: string, endDate: string): DateRange {
-    return new DateRange(new Date(startDate), new Date(endDate));
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      throw new Error('Invalid date string provided for custom range');
+    }
+
+    return new DateRange(start, end);
   }
 } 

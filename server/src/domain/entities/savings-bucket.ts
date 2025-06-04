@@ -130,11 +130,13 @@ export class SavingsBucket {
     }
     
     if (this._targetAmount!.amount === 0) {
-      return 100;
+      // If target is 0, and balance is 0, progress is 100%.
+      // If balance > 0, progress is infinitely more than target.
+      return this._currentBalance.amount === 0 ? 100 : Infinity;
     }
     
     const progress = (this._currentBalance.amount / this._targetAmount!.amount) * 100;
-    return Math.min(progress, 100);
+    return progress;
   }
 
   getRemainingAmount(): Money | null {
@@ -185,6 +187,9 @@ export class SavingsBucket {
   private validateTargetAmount(targetAmount: Money | null): void {
     if (targetAmount && targetAmount.amount < 0) {
       throw new Error('Target amount cannot be negative');
+    }
+    if (targetAmount && targetAmount.amount === 0) {
+      throw new Error('Target amount cannot be zero');
     }
   }
 

@@ -234,7 +234,7 @@ describe('PaymentMethod Entity', () => {
         PaymentMethodType.CASH
       );
 
-      expect(creditCardMethod.supportsInstallments()).toBe(false);
+      expect(cashMethod.supportsInstallments()).toBe(false);
     });
 
     it('should return false for bank', () => {

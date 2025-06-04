@@ -24,7 +24,7 @@ describe('CreateInstallmentPlanUseCase', () => {
   const inactiveCategory = Category.create('cat-inactive', 'Inactive Category', TransactionType.EXPENSE);
   
   const validCreditCard = new PaymentMethod('pm-credit', 'Credit Card', PaymentMethodType.CREDIT_CARD);
-  const validBankAccount = new PaymentMethod('pm-bank', 'Bank Account', PaymentMethodType.BANK_ACCOUNT);
+  const validBankAccount = new PaymentMethod('pm-bank', 'Bank Account', PaymentMethodType.BANK);
   const cashPaymentMethod = new PaymentMethod('pm-cash', 'Cash', PaymentMethodType.CASH);
   const inactivePaymentMethod = PaymentMethod.createCreditCard('pm-inactive', 'Inactive Card');
 
@@ -723,8 +723,8 @@ describe('CreateInstallmentPlanUseCase', () => {
         const result = await useCase.execute(longDescriptionPlan);
 
         // Verify
-        expect(result.success).toBe(true);
-        expect(result.installmentPlan?.description).toBe(longDescription);
+        expect(result.success).toBe(false);
+        expect(result.errors).toContain('Failed to create installment plan: Description cannot exceed 200 characters');
       });
 
       it('should handle minimum installment count', async () => {

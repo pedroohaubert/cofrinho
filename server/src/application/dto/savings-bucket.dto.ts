@@ -48,6 +48,7 @@ export interface BucketTransferResponseDTO {
   description: string | null;
   date: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface BucketSummaryResponseDTO {
@@ -80,7 +81,7 @@ export class SavingsBucketDTOMapper {
       createdAt: bucket.createdAt.toISOString(),
       updatedAt: bucket.updatedAt.toISOString(),
       progressPercentage: bucket.getProgressPercentage(),
-      remainingAmount: bucket.getRemainingAmount()?.amount || null,
+      remainingAmount: bucket.getRemainingAmount() !== null ? bucket.getRemainingAmount()!.amount : null,
       isTargetReached: bucket.isTargetReached(),
     };
   }
@@ -95,6 +96,7 @@ export class SavingsBucketDTOMapper {
       description: transfer.description,
       date: transfer.date.toISOString(),
       createdAt: transfer.createdAt.toISOString(),
+      updatedAt: transfer.updatedAt.toISOString(),
     };
   }
 

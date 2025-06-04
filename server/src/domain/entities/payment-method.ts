@@ -102,8 +102,8 @@ export class PaymentMethod {
     if (!name || name.trim().length === 0) {
       throw new Error('Payment method name cannot be empty');
     }
-    if (name.trim().length > 50) {
-      throw new Error('Payment method name cannot exceed 50 characters');
+    if (name.trim().length > 100) {
+      throw new Error('Payment method name cannot exceed 100 characters');
     }
   }
 

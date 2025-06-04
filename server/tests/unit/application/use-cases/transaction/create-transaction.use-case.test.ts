@@ -23,7 +23,7 @@ describe('CreateTransactionUseCase', () => {
   
   const validCreditCard = new PaymentMethod('pm-credit', 'Credit Card', PaymentMethodType.CREDIT_CARD);
   const validCash = new PaymentMethod('pm-cash', 'Cash', PaymentMethodType.CASH);
-  const validBank = new PaymentMethod('pm-bank', 'Bank Account', PaymentMethodType.BANK_ACCOUNT);
+  const validBank = new PaymentMethod('pm-bank', 'Bank Account', PaymentMethodType.BANK);
   const inactivePaymentMethod = PaymentMethod.createCreditCard('pm-inactive', 'Inactive Card');
 
   // Deactivate inactive entities
