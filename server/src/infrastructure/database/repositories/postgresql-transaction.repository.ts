@@ -33,7 +33,7 @@ export class PostgreSQLTransactionRepository implements ITransactionRepository {
         ${transaction.categoryId},
         ${transaction.paymentMethodId},
         ${transaction.description},
-        ${transaction.type.toLowerCase()},
+        ${transaction.type.toString().toLowerCase()},
         ${transaction.source},
         ${transaction.sourceId},
         ${transaction.createdAt},
@@ -351,7 +351,7 @@ export class PostgreSQLTransactionRepository implements ITransactionRepository {
 
   // Private helper methods
   private mapRowToEntity(row: TransactionRow): Transaction {
-    const amount = new Money(Math.abs(row.amount));
+    const amount = new Money(Math.abs(row.amount), 'BRL'); // Explicitly BRL as currency is not stored
     const type = row.type === 'income' ? TransactionType.INCOME : TransactionType.EXPENSE;
     const source = this.mapSourceType(row.source_type);
     

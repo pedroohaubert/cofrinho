@@ -169,7 +169,7 @@ export class PostgreSQLSubscriptionRepository implements ISubscriptionRepository
   }
 
   private mapRowToEntity(row: SubscriptionRow): Subscription {
-    const monthlyAmount = new Money(row.monthly_amount);
+    const monthlyAmount = new Money(row.monthly_amount, 'BRL'); // Explicitly BRL as currency is not stored
     const status = this.mapStatusFromDatabase(row.status);
     
     return new Subscription(

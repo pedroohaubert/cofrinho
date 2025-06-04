@@ -208,8 +208,8 @@ export class PostgreSQLBucketTransferRepository implements IBucketTransferReposi
   }
 
   private mapRowToEntity(row: BucketTransferRow): BucketTransfer {
-    const amount = new Money(Math.abs(row.amount));
-    // Determine type based on amount sign since database doesn't have type field
+    // Amount from DB is signed. Currency is assumed 'BRL' as it's not stored.
+    const amount = new Money(row.amount, 'BRL');
     const type = row.amount >= 0 ? BucketTransferType.DEPOSIT : BucketTransferType.WITHDRAWAL;
     
     return new BucketTransfer(

@@ -18,9 +18,8 @@ const testSql = postgres(TEST_DATABASE_URL);
 describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
   let repository: PostgreSQLBucketTransferRepository;
   let testSavingsBucket: SavingsBucket;
-
   beforeAll(async () => {
-    repository = new PostgreSQLBucketTransferRepository(testSql);
+    repository = new PostgreSQLBucketTransferRepository();
     console.log("Opened test database connection for BucketTransferRepository.");
   });
 
@@ -64,7 +63,7 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
     // For testing save, we use positive amounts as per entity.
     return new BucketTransfer(
       id,
-      props.date || now,
+      props.date || new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())), // Normalized to midnight UTC
       props.amount || new Money(100, 'BRL'),
       props.type || BucketTransferType.DEPOSIT,
       props.bucketId || testSavingsBucket.id,
@@ -143,7 +142,7 @@ describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
 
       const newDescription = 'Updated Desc';
       const newAmount = new Money(150, 'BRL');
-      const newDate = new Date('2024-01-02T12:00:00Z');
+      const newDate = new Date(Date.UTC(2024, 0, 2)); // Normalized to midnight UTC (Jan 2, 2024)
 
       // Create a new entity instance for update, as per repository pattern
       const transferToUpdate = new BucketTransfer(
