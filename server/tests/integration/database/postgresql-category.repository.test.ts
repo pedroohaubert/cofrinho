@@ -17,7 +17,7 @@ describe('PostgreSQLCategoryRepository Integration Tests', () => {
   let repository: PostgreSQLCategoryRepository;
 
   beforeAll(async () => {
-    repository = new PostgreSQLCategoryRepository(testSql);
+    repository = new PostgreSQLCategoryRepository();
     console.log("Opened test database connection for CategoryRepository.");
   });
 

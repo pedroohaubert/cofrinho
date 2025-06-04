@@ -18,9 +18,8 @@ const testSql = postgres(TEST_DATABASE_URL);
 describe('PostgreSQLBucketTransferRepository Integration Tests', () => {
   let repository: PostgreSQLBucketTransferRepository;
   let testSavingsBucket: SavingsBucket;
-
   beforeAll(async () => {
-    repository = new PostgreSQLBucketTransferRepository(testSql);
+    repository = new PostgreSQLBucketTransferRepository();
     console.log("Opened test database connection for BucketTransferRepository.");
   });
 

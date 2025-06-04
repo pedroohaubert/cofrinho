@@ -2,7 +2,7 @@ import sql from '@/infrastructure/database/connection.js';
 import { Transaction, TransactionSource } from '@/domain/entities/transaction.js';
 import { ITransactionRepository, TransactionFilters, PaginatedResult, MonthlyTotal } from '@/domain/repositories/transaction-repository.js';
 import { Money } from '@/domain/value-objects/money.js';
-import { TransactionType, TransactionTypeVO } from '@/domain/value-objects/transaction-type.js'; // Added TransactionTypeVO
+import { TransactionType } from '@/domain/value-objects/transaction-type.js';
 import { DateRange } from '@/domain/value-objects/date-range.js';
 
 interface TransactionRow {
@@ -352,8 +352,7 @@ export class PostgreSQLTransactionRepository implements ITransactionRepository {
   // Private helper methods
   private mapRowToEntity(row: TransactionRow): Transaction {
     const amount = new Money(Math.abs(row.amount), 'BRL'); // Explicitly BRL as currency is not stored
-    const typeEnum = row.type === 'income' ? TransactionType.INCOME : TransactionType.EXPENSE;
-    const typeVO = new TransactionTypeVO(typeEnum); // Create VO instance
+    const type = row.type === 'income' ? TransactionType.INCOME : TransactionType.EXPENSE;
     const source = this.mapSourceType(row.source_type);
     
     return new Transaction(
@@ -362,7 +361,7 @@ export class PostgreSQLTransactionRepository implements ITransactionRepository {
       amount,
       row.category_id,
       row.payment_method_id,
-      typeVO, // Pass the VO instance
+      type,
       row.description,
       source,
       row.source_id,

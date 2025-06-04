@@ -26,7 +26,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
   let testPaymentMethod: PaymentMethod;
 
   beforeAll(async () => {
-    repository = new PostgreSQLTransactionRepository(testSql);
+    repository = new PostgreSQLTransactionRepository();
     console.log("Opened test database connection.");
   });
 
@@ -79,11 +79,10 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
         new Money(100.50, 'BRL'), // Explicitly BRL
         testCategory.id,
         testPaymentMethod.id,
-        new TransactionTypeVO(TransactionType.EXPENSE),
+        TransactionType.EXPENSE,
         'Test transaction description',
         TransactionSource.MANUAL,
         null,
-        true,
         createdAt,
         updatedAt
       );
@@ -99,11 +98,11 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
       expect(found!.amount.currency).toBe('BRL'); // Assert BRL
       expect(found!.categoryId).toBe(transaction.categoryId);
       expect(found!.paymentMethodId).toBe(transaction.paymentMethodId);
-      expect(found!.type.value).toBe(transaction.type.value);
+      expect(found!.type).toBe(transaction.type);
       expect(found!.description).toBe(transaction.description);
       expect(found!.source).toBe(transaction.source);
       expect(found!.sourceId).toBe(transaction.sourceId);
-      expect(found!.isActive).toBe(transaction.isActive);
+
       expect(found!.createdAt.toISOString()).toBe(transaction.createdAt.toISOString());
       expect(found!.updatedAt.toISOString()).toBe(transaction.updatedAt.toISOString());
     });
@@ -126,10 +125,12 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
         new Money(150.00, 'BRL'), // Explicitly BRL
         testCategory.id,
         testPaymentMethod.id,
-        new TransactionTypeVO(TransactionType.EXPENSE),
+        TransactionType.EXPENSE,
         'Initial description',
         TransactionSource.MANUAL,
-        null, true, initialDate, initialDate
+        null,
+        initialDate,
+        initialDate
       );
       await repository.save(transaction);
 
@@ -160,7 +161,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
         newDescription, // new description
         fetchedTransaction.source,
         fetchedTransaction.sourceId,
-        fetchedTransaction.isActive,
+
         fetchedTransaction.createdAt, // createdAt should not change
         new Date() // new updatedAt
       );
@@ -184,7 +185,7 @@ describe('PostgreSQLTransactionRepository Integration Tests', () => {
         new Money(50.00, 'BRL'), // Explicitly BRL
         testCategory.id,
         testPaymentMethod.id,
-        new TransactionTypeVO(TransactionType.EXPENSE),
+        TransactionType.EXPENSE,
         'To be deleted',
         TransactionSource.MANUAL
       );
