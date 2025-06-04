@@ -17,7 +17,7 @@ describe('DateRange Value Object', () => {
       const endDate = new Date('2024-01-01');
       
       expect(() => new DateRange(startDate, endDate))
-        .toThrow('Start date must be before or equal to end date');
+        .toThrow('Start date cannot be after end date');
     });
 
     it('should allow start date equal to end date', () => {

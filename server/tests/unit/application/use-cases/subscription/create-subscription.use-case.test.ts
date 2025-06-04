@@ -22,7 +22,7 @@ describe('CreateSubscriptionUseCase', () => {
   const inactiveCategory = Category.create('cat-inactive', 'Inactive Category', TransactionType.EXPENSE);
   
   const validCreditCard = new PaymentMethod('pm-credit', 'Credit Card', PaymentMethodType.CREDIT_CARD);
-  const validBankAccount = new PaymentMethod('pm-bank', 'Bank Account', PaymentMethodType.BANK_ACCOUNT);
+  const validBankAccount = new PaymentMethod('pm-bank', 'Bank Account', PaymentMethodType.BANK);
   const inactivePaymentMethod = PaymentMethod.createCreditCard('pm-inactive', 'Inactive Card');
 
   beforeEach(() => {

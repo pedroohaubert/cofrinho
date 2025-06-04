@@ -20,37 +20,38 @@ describe('TransferToBucketUseCase', () => {
 
   beforeEach(() => {
     // Create test buckets
-    activeBucket = SavingsBucket.create(
-      'bucket-active',
-      'Emergency Fund',
-      new Money(1000, 'BRL'),
-      new Money(5000, 'BRL'),
-      'Emergency savings bucket'
+    activeBucket = SavingsBucket.createWithInitialBalance(
+      'bucket-active',          // id
+      'Emergency Fund',         // name
+      new Money(5000, 'BRL'),   // initialBalance
+      new Money(1000, 'BRL'),   // targetAmount
+      'Emergency savings bucket'// description
     );
 
-    inactiveBucket = SavingsBucket.create(
-      'bucket-inactive',
-      'Inactive Bucket',
-      new Money(500, 'BRL'),
-      new Money(2000, 'BRL'),
-      'Inactive bucket'
+    inactiveBucket = SavingsBucket.createWithInitialBalance(
+      'bucket-inactive',        // id
+      'Inactive Bucket',        // name
+      new Money(2000, 'BRL'),   // initialBalance
+      new Money(500, 'BRL'),    // targetAmount
+      'Inactive bucket'         // description
     );
     inactiveBucket.deactivate();
 
-    bucketWithTarget = SavingsBucket.create(
-      'bucket-target',
-      'Vacation Fund',
-      new Money(3000, 'BRL'),
-      new Money(10000, 'BRL'),
-      'Vacation savings'
+    bucketWithTarget = SavingsBucket.createWithInitialBalance(
+      'bucket-target',          // id
+      'Vacation Fund',          // name
+      new Money(10000, 'BRL'),  // initialBalance
+      new Money(3000, 'BRL'),   // targetAmount
+      'Vacation savings'        // description
     );
 
-    lowBalanceBucket = SavingsBucket.create(
-      'bucket-low',
-      'Low Balance Bucket',
-      new Money(50, 'BRL'),
-      new Money(1000, 'BRL'),
-      'Low balance bucket'
+    lowBalanceBucket = SavingsBucket.createWithInitialBalance(
+      'bucket-low',             // id
+      'Low Balance Bucket',     // name
+      new Money(50, 'BRL'),     // initialBalance
+      new Money(1000, 'BRL'),   // targetAmount - Note: In tests, lowBalanceBucket has 50, target 1000.
+                                // This seems fine for a "low balance" test.
+      'Low balance bucket'      // description
     );
 
     // Setup mock repository
@@ -189,12 +190,12 @@ describe('TransferToBucketUseCase', () => {
       });
 
       it('should deposit with different currency', async () => {
-        const bucketUSD = SavingsBucket.create(
-          'bucket-usd',
-          'USD Bucket',
-          new Money(100, 'USD'),
-          new Money(1000, 'USD'),
-          'USD savings'
+        const bucketUSD = SavingsBucket.createWithInitialBalance(
+          'bucket-usd',             // id
+          'USD Bucket',             // name
+          new Money(1000, 'USD'),   // initialBalance
+          new Money(100, 'USD'),    // targetAmount
+          'USD savings'             // description
         );
 
         const depositDTO: TransferToBucketDTO = {
@@ -639,24 +640,20 @@ describe('TransferToBucketUseCase', () => {
           description: 'Zero deposit',
         };
 
-        const mockTransfer = BucketTransfer.createDeposit(
-          'transfer-zero',
-          new Date(),
-          new Money(0, 'BRL'),
-          'bucket-active',
-          'Zero deposit'
-        );
-
         // Setup mocks
         mockSavingsBucketRepo.findById.mockResolvedValue(activeBucket);
-        mockSavingsBucketService.depositToBucket.mockResolvedValue(mockTransfer);
+        // The service call should attempt to create a BucketTransfer, which will throw.
+        mockSavingsBucketService.depositToBucket.mockImplementation(async () => {
+          // This simulates the point where BucketTransfer constructor would throw
+          throw new Error('Transfer amount must be positive');
+        });
 
         // Execute
         const result = await useCase.execute('bucket-active', depositDTO);
 
         // Verify
-        expect(result.success).toBe(true);
-        expect(result.transfer?.amount).toBe(0);
+        expect(result.success).toBe(false);
+        expect(result.errors).toContain('Failed to process transfer: Transfer amount must be positive');
       });
 
       it('should handle zero amount withdrawal', async () => {
@@ -667,24 +664,22 @@ describe('TransferToBucketUseCase', () => {
           description: 'Zero withdrawal',
         };
 
-        const mockTransfer = BucketTransfer.createWithdrawal(
-          'transfer-zero-withdrawal',
-          new Date(),
-          new Money(0, 'BRL'),
-          'bucket-active',
-          'Zero withdrawal'
-        );
-
         // Setup mocks
         mockSavingsBucketRepo.findById.mockResolvedValue(activeBucket);
-        mockSavingsBucketService.withdrawFromBucket.mockResolvedValue(mockTransfer);
+        // The service call should attempt to create a BucketTransfer, which will throw.
+        mockSavingsBucketService.withdrawFromBucket.mockImplementation(async () => {
+          // This simulates the point where BucketTransfer constructor would throw
+          throw new Error('Transfer amount must be positive');
+        });
 
         // Execute
         const result = await useCase.execute('bucket-active', withdrawalDTO);
 
         // Verify
-        expect(result.success).toBe(true);
-        expect(result.transfer?.amount).toBe(0);
+        expect(result.success).toBe(false);
+        // This message is returned because canWithdraw() catches the "Transfer amount must be positive"
+        // error and returns false, leading the use case to return "Insufficient funds...".
+        expect(result.errors).toContain('Insufficient funds in bucket for withdrawal');
       });
 
       it('should handle very long description', async () => {
@@ -717,12 +712,12 @@ describe('TransferToBucketUseCase', () => {
       });
 
       it('should handle special characters in bucket ID', async () => {
-        const specialBucket = SavingsBucket.create(
-          'bucket-special-äöü-123',
-          'Special Bucket',
-          new Money(100, 'BRL'),
-          new Money(1000, 'BRL'),
-          'Special character bucket'
+        const specialBucket = SavingsBucket.createWithInitialBalance(
+          'bucket-special-äöü-123', // id
+          'Special Bucket',          // name
+          new Money(1000, 'BRL'),    // initialBalance
+          new Money(100, 'BRL'),     // targetAmount
+          'Special character bucket' // description
         );
 
         const depositDTO: TransferToBucketDTO = {

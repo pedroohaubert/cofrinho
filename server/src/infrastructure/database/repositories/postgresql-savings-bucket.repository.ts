@@ -166,8 +166,8 @@ export class PostgreSQLSavingsBucketRepository implements ISavingsBucketReposito
     return new SavingsBucket(
       row.id,
       row.name,
+      targetAmount, // Corrected order: targetAmount then currentBalance
       currentBalance,
-      targetAmount,
       row.description,
       row.is_active,
       row.created_at,

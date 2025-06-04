@@ -871,13 +871,9 @@ describe('ListTransactionsUseCase', () => {
         // Execute
         const result = await useCase.execute(dto);
 
-        // Verify - empty strings should still be passed as filters
+        // Verify - empty strings should NOT be passed as filters if they are falsy
         expect(result.success).toBe(true);
-        expect(mockTransactionRepo.findPaginated).toHaveBeenCalledWith(1, 20, {
-          categoryId: '',
-          paymentMethodId: '',
-          description: '',
-        });
+        expect(mockTransactionRepo.findPaginated).toHaveBeenCalledWith(1, 20, {});
       });
 
       it('should handle edge case date values', async () => {

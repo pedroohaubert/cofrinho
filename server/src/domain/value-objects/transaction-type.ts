@@ -7,10 +7,11 @@ export class TransactionTypeVO {
   private readonly _value: TransactionType;
 
   constructor(value: string) {
-    if (!Object.values(TransactionType).includes(value as TransactionType)) {
+    const lowerValue = value.toLowerCase();
+    if (!Object.values(TransactionType).includes(lowerValue as TransactionType)) {
       throw new Error(`Invalid transaction type: ${value}. Must be one of: ${Object.values(TransactionType).join(', ')}`);
     }
-    this._value = value as TransactionType;
+    this._value = lowerValue as TransactionType;
   }
 
   get value(): TransactionType {
